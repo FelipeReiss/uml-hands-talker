@@ -16,6 +16,7 @@ export class FeedbackPage implements OnInit {
   admMail = 'felipereiss@outlook.com';
   isSignIn = false;
   userName: string;
+  isAdmin: boolean;
 
   private nameControl = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
@@ -31,13 +32,19 @@ export class FeedbackPage implements OnInit {
     this.createForm();
   }
 
+  ionViewWillEnter() {
+    this.authService.updateUserFireClass(this.userService);
+  }
+
   ionViewDidEnter(): void {
       if (this.authService.userFirebase) {
         this.isSignIn = true;
         this.userName = this.authService.userFirebase.displayName;
         this.mailForm.removeControl('name');
         this.mailForm.removeControl('email');
+        this.isAdmin = this.authService.userFirestoreClass$.admin;
       } else {
+        this.isAdmin = false;
         this.isSignIn = false;
         this.mailForm.addControl('name', this.nameControl);
         this.mailForm.addControl('email', this.nameControl);
@@ -86,9 +93,6 @@ export class FeedbackPage implements OnInit {
     });
   }
 
-  ionViewWillEnter() {
-    this.authService.updateUserFireClass(this.userService);
-  }
   async sendMail(): Promise<void> {
     await this.overlayService.alert({
       // tslint:disable-next-line:max-line-length
