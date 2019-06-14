@@ -120,16 +120,19 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.searchForm.get('searchTerm').setValue('Atualizando lista...');
+    this.searchForm.get('searchTerm').setValue('  ');
     this.authService.updateUserFireClass(this.userService);
   }
 
   async ionViewDidEnter() {
+    const loading = await this.overlayService.loading({
+      message: 'Atualizando lista de termos...'
+    });
     await this.timeOut(500)
     .then(() => {
       this.searchForm.get('searchTerm').setValue('');
       this.userAdmin = this.authService.userFirestoreClass$.admin;
-      console.log(this.userAdmin);
+      loading.dismiss();
     });
   }
 

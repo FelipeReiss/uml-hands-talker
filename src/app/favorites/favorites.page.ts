@@ -56,12 +56,19 @@ export class FavoritesPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.searchForm.get('searchTerm').setValue('Atualizando lista...');
+    this.searchForm.get('searchTerm').setValue('  ');
     this.authService.updateUserFireClass(this.userService);
   }
 
   async ionViewDidEnter() {
-    await this.timeOut(500).then(() => this.searchForm.get('searchTerm').setValue(''));
+    const loading = await this.overlayService.loading({
+      message: 'Atualizando lista de favoritos...'
+    });
+    await this.timeOut(500)
+    .then(() => {
+        this.searchForm.get('searchTerm').setValue('');
+        loading.dismiss();
+    });
   }
 
   onOpen(word: Word): void {

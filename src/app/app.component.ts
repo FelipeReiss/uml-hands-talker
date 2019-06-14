@@ -2,13 +2,11 @@ import { UserService } from './auth/services/user.service';
 import { UserFirestoreClass } from './auth/classes/UserFirestoreClass.class';
 import { AuthService } from './core/services/auth.service';
 import { Component } from '@angular/core';
-
 import { Platform, NavController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { OverlayService } from './core/services/overlay.service';
-import { async } from 'q';
-import { take } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-root',
@@ -25,7 +23,6 @@ export class AppComponent {
     private authService: AuthService,
     private navCtrl: NavController,
     private overlayService: OverlayService,
-    private userService: UserService
   ) {
     this.initializeApp();
   }
@@ -49,10 +46,11 @@ export class AppComponent {
           text: 'Sim',
           handler: async () => {
             const loading = await this.overlayService.loading();
-            await this.authService.logout();
-            this.navCtrl.navigateRoot('/tabs/home');
-            loading.dismiss();
-            window.location.reload();
+            await this.authService.logout()
+            .then(() => {
+              this.navCtrl.navigateRoot('/tabs/home');
+              loading.dismiss();
+          });
           }
         },
         'Não'

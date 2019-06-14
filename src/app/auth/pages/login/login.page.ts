@@ -63,6 +63,14 @@ export class LoginPage implements OnInit {
     !isSignIn ? this.authForm.addControl('name', this.nameControl) : this.authForm.removeControl('name');
   }
 
+  timeOut(time: number) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(time);
+      }, time);
+    });
+  }
+
   async onSubmit(provider: AuthProvider): Promise<void> {
     const loading = await this.overlayService.loading();
     try {
@@ -70,10 +78,8 @@ export class LoginPage implements OnInit {
         isSignIn: this.configs.isSignIn,
         user: this.authForm.value,
         provider
-      }, this.userService).then( () => {
-      this.navCtrl.navigateRoot(
-        this.route.snapshot.queryParamMap.get('redirect') || '/tabs/home');
-      });
+      }, this.userService);
+      this.navCtrl.navigateRoot(this.route.snapshot.queryParamMap.get('redirect') || '/tabs/home');
     } catch (error) {
       this.overlayService.toast({
         message: error.message,

@@ -14,7 +14,6 @@ export class SearchPipe implements PipeTransform {
   ) { }
 
   transform(items: any[], terms: string, isFavorites?: boolean): any[] {
-    console.log(this.authService.userFirestoreClass$);
     let listFavorites = [];
     if (this.authService.userFirestoreClass$) {
       listFavorites = this.authService.userFirestoreClass$.favoritesWords.slice();
@@ -28,11 +27,8 @@ export class SearchPipe implements PipeTransform {
     if (!items) { return []; }
     
     const list = items.slice();
-    console.log(listFavorites.length);
     if (listFavorites.length > 0){
-      console.log('estou if lenght')
       for (let i = 0; i < list.length; i++) {
-      console.log('estou no for')
         if (listFavorites.indexOf(list[i].id) > -1) {
           list[i].done = true;
         } else {
@@ -40,7 +36,6 @@ export class SearchPipe implements PipeTransform {
         }
       } 
     }
-    console.log('saiu do if')
     if (isFavorites) {
       if (listFavorites.length === 0) {
         return null;
