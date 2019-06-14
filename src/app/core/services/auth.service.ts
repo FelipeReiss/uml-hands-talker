@@ -55,7 +55,7 @@ export class AuthService {
           userFirestoreClass.name = (valor[0] as UserFirestoreClass).name;
           userFirestoreClass.email = (valor[0] as UserFirestoreClass).email;
         } else {
-          userFirestoreClass.favoritesWords = [''];
+          userFirestoreClass.favoritesWords = [];
           userFirestoreClass.admin = false;
           userService.create({
             id: userFirestoreClass.id,
