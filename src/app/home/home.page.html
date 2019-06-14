@@ -11,27 +11,28 @@
           </ion-button>
         </ion-menu-toggle>
       </ion-buttons>
-      <ion-title text-center>
+      <ion-title text-center align-self-center>
         UML Hands Talker
       </ion-title>
     </ion-toolbar>
   </ion-header>
 <ion-content padding>
-  <form [formGroup]="searchForm">
-  <ion-searchbar
-    formControlName="searchTerm"
-    autofocus="true"
-    inputmode="text"
-    (ionChange)="onSearchInput()"
-    placeholder="Pesquisar termos"
-  ></ion-searchbar>
-  </form>
-  <ion-list *ngIf="(words$ | async) as words">
+  <ion-list class="background" *ngIf="(words$ | async) as words">
     <ng-container *ngIf="words.length > 0; else noWords">      
+        <form [formGroup]="searchForm">
+            <ion-searchbar
+              formControlName="searchTerm"
+              autofocus="true"
+              inputmode="text"
+              (ionChange)="onSearchInput()"
+              placeholder="Pesquisar termos"
+            ></ion-searchbar>
+            </form>
       <ng-container 
       *ngIf="!userLogado; else checkUser"
       >
       <app-word-item-logout
+        class="background"
         *ngFor="let word of words | search : sentence" 
         [word]="word"
         (update)="onUpdate($event)"
@@ -41,10 +42,15 @@
       ></app-word-item-logout>
       </ng-container>
       <ng-template #checkUser>
+          <ion-item lines="none">
+              <ion-icon name="logo-youtube" color="danger" slot="start"></ion-icon>
+              <ion-icon name="star" color="primary" slot="end"></ion-icon>
+            </ion-item>
           <ng-container 
           *ngIf="userAdmin; else notAdmin"
           >
           <app-word-item-admin
+            class="background"
             *ngFor="let word of words | search : sentence" 
             [word]="word"
             (update)="onUpdate($event)"
@@ -55,6 +61,7 @@
           </ng-container>
           <ng-template #notAdmin>
               <app-word-item
+                class="background"
                 *ngFor="let word of words | search : sentence" 
                 [word]="word"
                 (update)="onUpdate($event)"
@@ -66,14 +73,20 @@
       </ng-template>
     </ng-container>
     <ng-template #noWords>
-      <ion-item lines="none">Sem Termos cadastradas no Momento</ion-item>
+      <ion-item 
+      class="background"
+      lines="none">Sem Termos cadastradas no Momento</ion-item>
     </ng-template>
-  </ion-list>
-  <ion-list *ngIf="error as erro">
+  </ion-list> 
+  <ion-list class="background" *ngIf="error as erro">
     <ng-container *ngIf="erro">
-      <ion-item lines="none">Ocorreu um erro para carregar os Termos UML, por favor nos envie um feedback com o erro. Segue descrição:</ion-item>
+      <ion-item 
+      class="background"
+      lines="none">Ocorreu um erro para carregar os Termos UML, por favor nos envie um feedback com o erro. Segue descrição:</ion-item>
       <br>
-      <ion-item lines="none">{{ messageError }}</ion-item>
+      <ion-item 
+      class="background"
+      lines="none">{{ messageError }}</ion-item>
     </ng-container>
   </ion-list> 
   <ng-container 

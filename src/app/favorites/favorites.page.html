@@ -11,24 +11,31 @@
           </ion-button>
         </ion-menu-toggle>
       </ion-buttons>
-      <ion-title>
+      <ion-title text-center align-self-center>
         Favoritos
       </ion-title>
     </ion-toolbar>
   </ion-header>
 <ion-content padding>
-  <form [formGroup]="searchForm">
-  <ion-searchbar
-    formControlName="searchTerm"
-    autofocus="true"
-    inputmode="text"
-    (ionChange)="onSearchInput()"
-    placeholder="Pesquisar termos"
-  ></ion-searchbar>
-  </form>
-  <ion-list *ngIf="(words$ | async) as words">
-    <ng-container *ngIf="words.length > 0; else noWords">
+  <ion-list 
+  class="background"
+  *ngIf="(words$ | async) as words">
+    <ng-container *ngIf="!hasFav(); else noWords">
+        <form [formGroup]="searchForm">
+            <ion-searchbar
+              formControlName="searchTerm"
+              autofocus="true"
+              inputmode="text"
+              (ionChange)="onSearchInput()"
+              placeholder="Pesquisar em favoritos"
+            ></ion-searchbar>
+            </form>
+        <ion-item lines="none">
+            <ion-icon name="logo-youtube" color="danger" slot="start"></ion-icon>
+            <ion-icon name="star" color="primary" slot="end"></ion-icon>
+          </ion-item>
       <app-word-item 
+        class="background"
         *ngFor="let word of words | search : sentence : isFav" 
         [word]="word"
         (open)="onOpen($event)"
@@ -36,14 +43,23 @@
       ></app-word-item>
     </ng-container>
     <ng-template #noWords>
-      <ion-item lines="none">Sem Favoritos no Momento</ion-item>
+      <ion-item
+      text-center align-self-center
+      class="background"
+      lines="none">Você não Favoritos no Momento</ion-item>
     </ng-template>
   </ion-list>
-  <ion-list *ngIf="error as erro">
+  <ion-list 
+  class="background"
+  *ngIf="error as erro">
     <ng-container *ngIf="erro">
-      <ion-item lines="none">Ocorreu um erro para carregar os Termos UML, por favor nos envie um feedback com o erro. Segue descrição:</ion-item>
+      <ion-item 
+      class="background"
+      lines="none">Ocorreu um erro para carregar os Termos UML, por favor nos envie um feedback com o erro. Segue descrição:</ion-item>
       <br>
-      <ion-item lines="none">{{ messageError }}</ion-item>
+      <ion-item 
+      class="background"
+      lines="none">{{ messageError }}</ion-item>
     </ng-container>
   </ion-list>
 </ion-content>

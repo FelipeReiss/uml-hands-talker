@@ -11,7 +11,7 @@
       </ion-toolbar>
     </ion-header>        
     <ion-content>
-      <ion-list>
+      <ion-list class="background">
         <ion-menu-toggle autoHide="false">
             <ion-list-header *ngIf="user">Olá, {{ user.displayName }}! Selecione uma opção abaixo.</ion-list-header>
             <ion-item *ngIf="!user" button routerLink="/login" routerDirection="forward">

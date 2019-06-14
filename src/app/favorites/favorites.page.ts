@@ -108,7 +108,9 @@ export class FavoritesPage implements OnInit {
       this.updateList();
     });
   }
-  
+  hasFav(): boolean{
+    return this.authService.userFirestoreClass$.favoritesWords.length === 0;
+  }
   private createForm(): void {
     this.searchForm = this.fb.group({
       searchTerm: ''

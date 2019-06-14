@@ -13,7 +13,8 @@
       size-xl="3"
     >
         <h1 text-center>
-            <ion-icon name="log-in" color="primary" class="icon-7em"></ion-icon>
+            <!--<ion-icon name="log-in" color="primary" class="icon-7em"></ion-icon>-->
+            <img src="'../../../../../../assets/images/Logo.png" class="icon-7em">
           </h1>
           
           <form 
@@ -51,19 +52,12 @@
           <ion-button expand="full" fill="clear" (click)="changeAuthAction()">
             {{ configs.actionChange }}
           </ion-button>
-          <ion-grid>
+          <ion-grid align-self-center>
             <ion-row>
-              <ion-col text-center align-self-center
-                size-xs="5"
-                size-sm="5"
-                size-md="5"
-                size-lg="4"
-                size-xl="4"
+              <ion-col
               >
-                OU ENTRE COM:
-              </ion-col>
-              <ion-col>
                 <ion-button
+                  expand="full"
                   color="primary"
                   (click)="onSubmit(AuthProviders.Facebook)" 
                 >
@@ -71,7 +65,8 @@
                 </ion-button>
               </ion-col>
               <ion-col>
-                <ion-button
+                <ion-button              
+                  expand="full"
                   color="danger"
                   (click)="onSubmit(AuthProviders.Google)" 
                 >

@@ -25,7 +25,7 @@ export class SearchPipe implements PipeTransform {
       }
     });
     if (!items) { return []; }
-    
+
     const list = items.slice();
     if (listFavorites.length > 0){
       for (let i = 0; i < list.length; i++) {
@@ -38,7 +38,7 @@ export class SearchPipe implements PipeTransform {
     }
     if (isFavorites) {
       if (listFavorites.length === 0) {
-        return null;
+        return [];
       }
       list.length = 0;
       listFavorites.forEach(function filterFav(favorite): void {

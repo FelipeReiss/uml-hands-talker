@@ -1,7 +1,3 @@
-<ng-container *ngIf="isAdmin; else openFeedback">
-  Sou admin porra
-</ng-container>
-<ng-template #openFeedback >
 <ion-header>
     <ion-toolbar color="primary">
       <ion-buttons slot="end">
@@ -15,7 +11,7 @@
           </ion-button>
         </ion-menu-toggle>
       </ion-buttons>
-      <ion-title>
+      <ion-title text-center align-self-center>
         Feedback
       </ion-title>
     </ion-toolbar>
@@ -81,4 +77,3 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-</ng-template>

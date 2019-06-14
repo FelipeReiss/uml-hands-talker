@@ -92,7 +92,6 @@ export class HomePage implements OnInit {
               await this.overlayService.toast({
                 message: `Termo "${word.title}" deletado com sucesso!`
               });
-              window.location.reload();
             } catch (error) {
               await this.overlayService.alert({
                 message: `Não foi possivel deletar termo "${word.title}". Favor encaminhar feedback com o erro abaixo: \n${error.message}`,
