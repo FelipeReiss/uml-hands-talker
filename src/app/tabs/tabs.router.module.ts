@@ -37,6 +37,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'adminSettings',
+        children: [
+          {
+            path: '',
+            loadChildren: '../adminSettings/adminSettings.module#AdminSettingsPageModule'
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

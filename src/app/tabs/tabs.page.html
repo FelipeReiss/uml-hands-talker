@@ -8,9 +8,16 @@
       <ion-icon name="home"></ion-icon>
     </ion-tab-button>
 
-    <ion-tab-button tab="feedback">
-      <ion-icon name="mail"></ion-icon>
-    </ion-tab-button>
+    <ng-container *ngIf="isAdmin; else goFeedback">
+      <ion-tab-button tab="adminSettings">
+        <ion-icon name="settings"></ion-icon>
+      </ion-tab-button>
+    </ng-container>
+    <ng-template #goFeedback>
+      <ion-tab-button tab="feedback">
+        <ion-icon name="mail"></ion-icon>
+      </ion-tab-button>
+    </ng-template>
   </ion-tab-bar>
 
 </ion-tabs>
