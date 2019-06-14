@@ -1,7 +1,21 @@
 <ion-header>
-  <ion-toolbar>
-  </ion-toolbar>
-</ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+        <ion-menu-toggle>
+          <ion-button>
+            <ion-icon
+              slot="icon-only"
+              name="menu" 
+            >
+            </ion-icon>
+          </ion-button>
+        </ion-menu-toggle>
+      </ion-buttons>
+      <ion-title text-center>
+        UML Hands Talker
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
 <ion-content padding>
   <form [formGroup]="searchForm">
   <ion-searchbar
