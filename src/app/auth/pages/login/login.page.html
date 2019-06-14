@@ -34,7 +34,7 @@
               <ion-icon name="mail" color="primary" slot="start"></ion-icon>
               <ion-input type="mail" placeholder="Digite seu Email" formControlName="email" inputmode="email" autofocus="true"></ion-input>
               <ion-note slot="end" color="danger" *ngIf="email.dirty && email.hasError('required')">Requerido</ion-note>
-              <ion-note slot="end" color="danger" *ngIf="email.dirty && email.hasError('email')">Email Invalido</ion-note>
+              <ion-note slot="end" color="danger" *ngIf="email.dirty && email.hasError('email')">E-mail Inválido</ion-note>
             </ion-item>
             <ion-item>
               <ion-icon name="lock" color="primary" slot="start"></ion-icon>

@@ -37,9 +37,11 @@ export class FeedbackPage implements OnInit {
         this.isSignIn = true;
         this.userName = user.displayName;
         this.mailForm.removeControl('name');
+        this.mailForm.removeControl('email');
       } else {
         this.isSignIn = false;
         this.mailForm.addControl('name', this.nameControl);
+        this.mailForm.addControl('email', this.nameControl);
       }
     });
   }
@@ -47,9 +49,14 @@ export class FeedbackPage implements OnInit {
   private createForm(): void {
     this.mailForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
       subject: ['', [Validators.required, Validators.minLength(6)]],
       body: ['', [Validators.required, Validators.minLength(30)]]
     });
+  }
+  
+  get email(): FormControl {
+    return this.mailForm.get('email') as FormControl;
   }
 
   get name(): FormControl {
