@@ -38,7 +38,7 @@ export class SearchPipe implements PipeTransform {
       }
     }
     if (isFavorites) {
-      if (listFavorites.length === 0) {
+      if (listFavorites.length === 0 || listFavorites[0] === '') {
         return [];
       }
       list.length = 0;

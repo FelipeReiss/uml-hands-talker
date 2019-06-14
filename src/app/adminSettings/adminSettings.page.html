@@ -17,18 +17,18 @@
     </ion-toolbar>
   </ion-header>
 <ion-content padding>
-  <form [formGroup]="searchForm">
-  <ion-searchbar
-    formControlName="searchTerm"
-    autofocus="true"
-    inputmode="text"
-    (ionChange)="onSearchInput()"
-    placeholder="Pesquisar termos"
-  ></ion-searchbar>
-  </form>
   <ion-list class="background"
   *ngIf="(words$ | async) as words">
     <ng-container *ngIf="words.length > 0; else noWords">
+      <form [formGroup]="searchForm">
+          <ion-searchbar
+            formControlName="searchTerm"
+            autofocus="true"
+            inputmode="text"
+            (ionChange)="onSearchInput()"
+            placeholder="Pesquisar termos"
+          ></ion-searchbar>
+      </form>
       <app-word-item
         class="background"
         *ngFor="let word of words | search : sentence : isFav" 

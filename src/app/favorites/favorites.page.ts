@@ -34,7 +34,14 @@ export class FavoritesPage implements OnInit {
   ) { }
 
   haveFav(): boolean{
-    return this.authService.userFirestoreClass$.favoritesWords.length != 0;
+    if (this.authService.userFirestoreClass$.favoritesWords.length != 0) {
+      if(this.authService.userFirestoreClass$.favoritesWords[0] === '') {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false;
   }
 
   async ngOnInit(): Promise<void> {

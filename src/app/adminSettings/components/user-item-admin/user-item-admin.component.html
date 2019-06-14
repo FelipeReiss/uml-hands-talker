@@ -1,0 +1,13 @@
+<ion-item-sliding #sliding>
+    <ion-item> 
+      {{ user.userName }}
+      <ion-toggle slot="end" color="primary" [checked]="user.admin" (ionChange)="admin.emit(user)" (click)="$event.stopPropagation()"></ion-toggle>
+    </ion-item>
+    <ion-item-options side="start">
+      <ion-item-option color="danger" (click)="delete.emit(user); sliding.close()"> 
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-item-option>
+        
+    </ion-item-options>
+  </ion-item-sliding>
+  

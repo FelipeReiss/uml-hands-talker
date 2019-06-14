@@ -50,15 +50,19 @@ export class AuthService {
       .pipe(take(1))
       .subscribe(valor => {
         if (valor[0]) {
-          userFirestoreClass.favoritesWords = (valor[0] as UserFirestoreClass).favoritesWords;
+          userFirestoreClass.favoritesWords = (valor[0] as UserFirestoreClass).favoritesWords.filter(Boolean);
           userFirestoreClass.admin = (valor[0] as UserFirestoreClass).admin;
+          userFirestoreClass.name = (valor[0] as UserFirestoreClass).name;
+          userFirestoreClass.email = (valor[0] as UserFirestoreClass).email;
         } else {
           userFirestoreClass.favoritesWords = [''];
           userFirestoreClass.admin = false;
           userService.create({
             id: userFirestoreClass.id,
             admin: userFirestoreClass.admin,
-            favoritesWords: userFirestoreClass.favoritesWords
+            favoritesWords: userFirestoreClass.favoritesWords,
+            name: this.userFirebase.displayName,
+            email: this.userFirebase.email
         });
         }
         this.setUser(userFirestoreClass);
