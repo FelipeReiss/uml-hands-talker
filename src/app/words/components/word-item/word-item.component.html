@@ -4,13 +4,4 @@
     {{ word.title }}
     <ion-toggle slot="end" color="primary" [checked]="word.done" (ionChange)="favorite.emit(word)" (click)="$event.stopPropagation()"></ion-toggle>
   </ion-item>
-  <ion-item-options side="start">
-    <ion-item-option color="danger" (click)="delete.emit(word); sliding.close()"> 
-      <ion-icon slot="icon-only" name="trash"></ion-icon>
-    </ion-item-option>
-    <ion-item-option (click)="update.emit(word); sliding.close()"> 
-      <ion-icon slot="icon-only" name="create"></ion-icon>
-    </ion-item-option>
-      
-  </ion-item-options>
 </ion-item-sliding>

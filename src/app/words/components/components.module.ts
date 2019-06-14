@@ -1,11 +1,16 @@
-import { WordItemComponent } from './word-item/word-item.component';
+import { WordItemAdminComponent } from './word-item-admin/word-item-admin.component';
+import { WordItemLogoutComponent } from './word-item-logout/word-item-logout.component';
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { WordItemComponent } from './word-item/word-item.component';
 
 @NgModule({
   declarations: [
-    WordItemComponent],
+    WordItemLogoutComponent,
+    WordItemAdminComponent,
+    WordItemComponent
+  ],
   imports: [SharedModule],
-  exports: [WordItemComponent]
+  exports: [WordItemLogoutComponent, WordItemAdminComponent, WordItemComponent]
 })
 export class ComponentsModule { }

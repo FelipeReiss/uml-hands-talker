@@ -1,4 +1,3 @@
-import { UserFirestore } from './../auth/models/userFirestore.model';
 import { UserFirestoreClass } from './../auth/classes/UserFirestoreClass.class';
 import { UserService } from './../auth/services/user.service';
 import { WordsService } from './../words/services/words.service';
@@ -10,8 +9,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../core/services/auth.service';
 import { Word } from '../words/models/word.model';
 import { take } from 'rxjs/operators';
-import { app } from 'firebase';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -132,6 +129,9 @@ export class HomePage implements OnInit {
     .then(() => {
       this.searchForm.get('searchTerm').setValue('');
       this.userAdmin = this.authService.userFirestoreClass$.admin;
+      this.authService.isAuthenticated.pipe(take(1)).subscribe( isAuth => {
+        this.userLogado = isAuth;
+      });
       loading.dismiss();
     });
   }

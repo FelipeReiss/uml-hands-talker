@@ -10,7 +10,5 @@ export class WordItemComponent {
 
   @Input() word: Word;
   @Output() favorite = new EventEmitter<Word>();
-  @Output() update = new EventEmitter<Word>();
   @Output() open = new EventEmitter<Word>();
-  @Output() delete = new EventEmitter<Word>();
 }

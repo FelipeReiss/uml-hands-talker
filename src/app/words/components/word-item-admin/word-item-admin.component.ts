@@ -3,8 +3,8 @@ import { Input, Output, EventEmitter, Component } from '@angular/core';
 
 @Component({
   selector: 'app-word-item-admin',
-  templateUrl: './word-item.component.html',
-  styleUrls: ['./word-item.component.scss'],
+  templateUrl: './word-item-admin.component.html',
+  styleUrls: ['./word-item-admin.component.scss'],
 })
 export class WordItemAdminComponent {
 

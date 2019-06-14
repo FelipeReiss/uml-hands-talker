@@ -1,6 +1,5 @@
 <ion-header>
   <ion-toolbar>
-
   </ion-toolbar>
 </ion-header>
 <ion-content padding>
@@ -14,15 +13,43 @@
   ></ion-searchbar>
   </form>
   <ion-list *ngIf="(words$ | async) as words">
-    <ng-container *ngIf="words.length > 0; else noWords">
-      <app-word-item
+    <ng-container *ngIf="words.length > 0; else noWords">      
+      <ng-container 
+      *ngIf="!userLogado; else checkUser"
+      >
+      <app-word-item-logout
         *ngFor="let word of words | search : sentence" 
         [word]="word"
         (update)="onUpdate($event)"
         (open)="onOpen($event)"
         (delete)="onDelete($event)"
         (favorite)="onChangeFav($event)"
-      ></app-word-item>
+      ></app-word-item-logout>
+      </ng-container>
+      <ng-template #checkUser>
+          <ng-container 
+          *ngIf="userAdmin; else notAdmin"
+          >
+          <app-word-item-admin
+            *ngFor="let word of words | search : sentence" 
+            [word]="word"
+            (update)="onUpdate($event)"
+            (open)="onOpen($event)"
+            (delete)="onDelete($event)"
+            (favorite)="onChangeFav($event)"
+          ></app-word-item-admin>
+          </ng-container>
+          <ng-template #notAdmin>
+              <app-word-item
+                *ngFor="let word of words | search : sentence" 
+                [word]="word"
+                (update)="onUpdate($event)"
+                (open)="onOpen($event)"
+                (delete)="onDelete($event)"
+                (favorite)="onChangeFav($event)"
+              ></app-word-item>
+          </ng-template>
+      </ng-template>
     </ng-container>
     <ng-template #noWords>
       <ion-item lines="none">Sem Termos cadastradas no Momento</ion-item>
