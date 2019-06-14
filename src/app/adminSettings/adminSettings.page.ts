@@ -1,9 +1,8 @@
-import { UserService } from './../auth/services/user.service';
+import { UserService } from 'src/app/auth/services/user.service';
 import { AuthService } from './../core/services/auth.service';
-import { WordsService } from './../words/services/words.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'node_modules/rxjs';
-import { Word } from '../words/models/word.model';
+import { UserFirestore } from 'src/app/auth/models/userFirestore.model';
 import { OverlayService } from '../core/services/overlay.service';
 import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -11,13 +10,13 @@ import { UserFirestoreClass } from '../auth/classes/UserFirestoreClass.class';
 import { take } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-favorites',
+  selector: 'app-adminSettings',
   templateUrl: 'adminSettings.page.html',
   styleUrls: ['adminSettings.page.scss']
 })
 export class AdminSettingsPage implements OnInit {
   public searchTerm = '';
-  words$: Observable<Word[]>;
+  user$: Observable<UserFirestore[]>;
   error = false;
   messageError: string;
   searchForm: FormGroup;
@@ -28,7 +27,6 @@ export class AdminSettingsPage implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private fb: FormBuilder,
-    private wordsService: WordsService,
     private overlayService: OverlayService,
     private navCtrl: NavController
   ) { }
@@ -36,9 +34,9 @@ export class AdminSettingsPage implements OnInit {
   async ngOnInit(): Promise<void> {
     this.createForm();
     const loading = await this.overlayService.loading();
-    this.words$ = null;
+    this.user$ = null;
     try {
-      this.words$ = this.wordsService.getAll();
+      this.user$ = this.userService.getAll();
     } catch (error) {
       this.error = true;
       this.messageError = error.message;
@@ -62,7 +60,7 @@ export class AdminSettingsPage implements OnInit {
 
   async ionViewDidEnter() {
     const loading = await this.overlayService.loading({
-      message: 'Atualizando lista de favoritos...'
+      message: 'Atualizando lista de usuários...'
     });
     await this.timeOut(500)
     .then(() => {
@@ -71,20 +69,16 @@ export class AdminSettingsPage implements OnInit {
     });
   }
 
-  onOpen(word: Word): void {
-    this.navCtrl.navigateForward(`/tabs/favorites/show-word/${word.id}`);
-  }
-
-  async onDelete(word: Word): Promise<void> {
+  async onDelete(user: UserFirestore): Promise<void> {
     await this.overlayService.alert({
-      message: `Você realmente deseja remover o termo "${word.title}" dos favoritos?`,
+      message: `Você realmente deseja remover o usuário "${user.name}" de email "${user.email}" do aplicativo?`,
       buttons: [
         {
           text: 'Sim',
           handler: async () => {
-            await this.wordsService.delete(word);
+            await this.userService.delete(user);
             await this.overlayService.toast({
-              message: `Termo "${word.title}" deletado com sucesso!`
+              message: `Usuário "${user.name}" de email "${user.email}" deletado com sucesso!`
             });
           }
         },
@@ -93,22 +87,19 @@ export class AdminSettingsPage implements OnInit {
     });
   }
 
-  async onChangeFav(word: Word): Promise<void> {
-    let userLocal = this.authService.userFirestoreClass$;
-    let index = userLocal.favoritesWords.indexOf(word.id);
-    this.userService.get(userLocal.id).pipe(take(1)).subscribe( valor => {
-      const userFormat = valor as UserFirestoreClass;
-      if (index < 0 ) {
-        userFormat.favoritesWords.push(word.id);
-      } else {
-        userFormat.favoritesWords.splice(index, 1);
-      }
-      this.userService.update(userFormat);
-      this.authService.updateUserFireClass(this.userService);
-      this.updateList();
+  async onChangeAdmin(user: UserFirestore): Promise<void> {
+
+    this.userService.update({
+      id: user.id,
+      admin: !user.admin,
+      favoritesWords: user.favoritesWords,
+      name: user.name,
+      email: user.email
     });
+    this.authService.updateUserFireClass(this.userService);
+    this.updateList();
   }
-  
+
   private createForm(): void {
     this.searchForm = this.fb.group({
       searchTerm: ''
@@ -119,7 +110,7 @@ export class AdminSettingsPage implements OnInit {
   }
   updateList() {
     this.ionViewWillEnter();
-   this.ionViewDidEnter();
+    this.ionViewDidEnter();
   }
 }
 

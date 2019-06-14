@@ -1,6 +1,6 @@
 <ion-item-sliding #sliding>
     <ion-item> 
-      {{ user.userName }}
+      {{ user.name }}
       <ion-toggle slot="end" color="primary" [checked]="user.admin" (ionChange)="admin.emit(user)" (click)="$event.stopPropagation()"></ion-toggle>
     </ion-item>
     <ion-item-options side="start">

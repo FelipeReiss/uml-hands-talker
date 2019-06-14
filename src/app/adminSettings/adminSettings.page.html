@@ -12,14 +12,14 @@
         </ion-menu-toggle>
       </ion-buttons>
       <ion-title text-center align-self-center>
-        Configurações
+        Configurações de Usuários
       </ion-title>
     </ion-toolbar>
   </ion-header>
 <ion-content padding>
   <ion-list class="background"
-  *ngIf="(words$ | async) as words">
-    <ng-container *ngIf="words.length > 0; else noWords">
+  *ngIf="(user$ | async) as users">
+    <ng-container *ngIf="users.length > 0; else noUsers">
       <form [formGroup]="searchForm">
           <ion-searchbar
             formControlName="searchTerm"
@@ -29,18 +29,18 @@
             placeholder="Pesquisar termos"
           ></ion-searchbar>
       </form>
-      <app-word-item
+      <app-user-item-admin
         class="background"
-        *ngFor="let word of words | search : sentence : isFav" 
-        [word]="word"
-        (open)="onOpen($event)"
-        (favorite)="onChangeFav($event)"
-      ></app-word-item>
+        *ngFor="let user of user | search : sentence" 
+        [user]="user"
+        (delete)="onDelete($event)"
+        (admin)="onChangeAdmin($event)"
+      ></app-user-item-admin>
     </ng-container>
-    <ng-template #noWords>
+    <ng-template #noUsers>
       <ion-item 
       class="background" 
-      lines="none">Sem Favoritos no Momento</ion-item>
+      lines="none">Sem Usuários no Momento</ion-item>
     </ng-template>
   </ion-list>
   <ion-list 
@@ -49,7 +49,7 @@
     <ng-container *ngIf="erro">
       <ion-item 
       class="background"
-      lines="none">Ocorreu um erro para carregar os Termos UML, por favor nos envie um feedback com o erro. Segue descrição:</ion-item>
+      lines="none">Ocorreu um erro para carregar os Usuários UML, por favor verifique o erro. Segue descrição:</ion-item>
       <br>
       <ion-item 
       class="background"
