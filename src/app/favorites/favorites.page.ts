@@ -33,6 +33,10 @@ export class FavoritesPage implements OnInit {
     private navCtrl: NavController
   ) { }
 
+  haveFav(): boolean{
+    return this.authService.userFirestoreClass$.favoritesWords.length != 0;
+  }
+
   async ngOnInit(): Promise<void> {
     this.createForm();
     const loading = await this.overlayService.loading();
@@ -66,8 +70,8 @@ export class FavoritesPage implements OnInit {
     });
     await this.timeOut(500)
     .then(() => {
-        this.searchForm.get('searchTerm').setValue('');
-        loading.dismiss();
+      this.searchForm.get('searchTerm').setValue('');
+      loading.dismiss();
     });
   }
 
@@ -108,9 +112,7 @@ export class FavoritesPage implements OnInit {
       this.updateList();
     });
   }
-  hasFav(): boolean{
-    return this.authService.userFirestoreClass$.favoritesWords.length === 0;
-  }
+
   private createForm(): void {
     this.searchForm = this.fb.group({
       searchTerm: ''
@@ -121,7 +123,7 @@ export class FavoritesPage implements OnInit {
   }
   updateList() {
     this.ionViewWillEnter();
-   this.ionViewDidEnter();
+    this.ionViewDidEnter();
   }
 }
 

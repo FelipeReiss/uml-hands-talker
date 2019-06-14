@@ -15,26 +15,27 @@ export class SearchPipe implements PipeTransform {
 
   transform(items: any[], terms: string, isFavorites?: boolean): any[] {
     let listFavorites = [];
-    if (this.authService.userFirestoreClass$) {
-      listFavorites = this.authService.userFirestoreClass$.favoritesWords.slice();
-    }
 
     this.authService.isAuthenticated.pipe(take(1)).subscribe( isAuth => {
       if (isAuth) {
         this.authService.updateUserFireClass(this.userService);
       }
     });
+
+    if (this.authService.userFirestoreClass$) {
+      listFavorites = this.authService.userFirestoreClass$.favoritesWords.slice();
+    }
+
     if (!items) { return []; }
 
     const list = items.slice();
-    if (listFavorites.length > 0){
-      for (let i = 0; i < list.length; i++) {
-        if (listFavorites.indexOf(list[i].id) > -1) {
-          list[i].done = true;
-        } else {
-          list[i].done = false;
-        }
-      } 
+
+    for (let i = 0; i < list.length; i++) {
+      if (listFavorites.indexOf(list[i].id) > -1) {
+        list[i].done = true;
+      } else {
+        list[i].done = false;
+      }
     }
     if (isFavorites) {
       if (listFavorites.length === 0) {

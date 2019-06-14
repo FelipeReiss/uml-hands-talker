@@ -19,8 +19,9 @@
 <ion-content padding>
   <ion-list 
   class="background"
-  *ngIf="(words$ | async) as words">
-    <ng-container *ngIf="!hasFav(); else noWords">
+  *ngIf="(words$ | async) as words"
+  >
+    <ng-container *ngIf="haveFav(); else noWords">
         <form [formGroup]="searchForm">
             <ion-searchbar
               formControlName="searchTerm"
