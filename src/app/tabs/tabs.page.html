@@ -1,9 +1,12 @@
 <ion-tabs>
+    
   <ion-tab-bar slot="bottom">
+      <ng-container *ngIf="!isAdmin">
     <ion-tab-button tab="favorites">
       <ion-icon name="star"></ion-icon>
     </ion-tab-button>
-    
+  </ng-container>
+
     <ion-tab-button tab="home">
       <ion-icon name="home"></ion-icon>
     </ion-tab-button>
@@ -11,6 +14,9 @@
     <ng-container *ngIf="isAdmin; else goFeedback">
       <ion-tab-button tab="adminSettings">
         <ion-icon name="settings"></ion-icon>
+      </ion-tab-button>
+          <ion-tab-button tab="feedback">
+        <ion-icon name="mail-open"></ion-icon>
       </ion-tab-button>
     </ng-container>
     <ng-template #goFeedback>
