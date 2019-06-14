@@ -32,10 +32,9 @@ export class FeedbackPage implements OnInit {
   }
 
   ionViewDidEnter(): void {
-    this.authService.authState$.subscribe(user => {
-      if (user) {
+      if (this.authService.userFirebase) {
         this.isSignIn = true;
-        this.userName = user.displayName;
+        this.userName = this.authService.userFirebase.displayName;
         this.mailForm.removeControl('name');
         this.mailForm.removeControl('email');
       } else {
@@ -43,7 +42,6 @@ export class FeedbackPage implements OnInit {
         this.mailForm.addControl('name', this.nameControl);
         this.mailForm.addControl('email', this.nameControl);
       }
-    });
   }
 
   private createForm(): void {
