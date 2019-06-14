@@ -1,3 +1,42 @@
-<ion-app>
-  <ion-router-outlet></ion-router-outlet>
-</ion-app>
+<ion-split-pane
+  contentId="menu-content"
+  when="md"
+>
+  <ion-menu contentId="menu-content">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title text-center>
+          Menu
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>        
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle autoHide="false">
+            <ion-list-header *ngIf="user">Olá, {{ user.displayName }}! Selecione uma opção abaixo.</ion-list-header>
+            <ion-item *ngIf="!user" button routerLink="/login" routerDirection="forward">
+              <ion-icon name="log-in" slot="start" color="primary"></ion-icon>
+              <ion-label>Logar</ion-label>
+            </ion-item>
+            <ion-item *ngIf="user" button (click)="onLogout()">
+              <ion-icon name="log-out" slot="start" color="primary"></ion-icon>
+              <ion-label>Deslogar</ion-label>
+            </ion-item>
+            <ion-item button (click)="onRefresh()">
+              <ion-icon name="refresh" slot="start" color="primary"></ion-icon>
+              <ion-label>Reiniciar</ion-label>
+            </ion-item>
+            <ion-item button routerLink="/tabs/feedback" routerDirection="forward">
+              <ion-icon name="information-circle-outline" slot="start" color="primary"></ion-icon>
+              <ion-label>Sobre</ion-label>
+            </ion-item>
+            <ion-item button (click)="onExit()">
+                <ion-icon name="exit" slot="start" color="primary"></ion-icon>
+                <ion-label>Sair</ion-label>
+              </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="menu-content"></ion-router-outlet>
+</ion-split-pane>

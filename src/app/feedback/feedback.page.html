@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>  
+  <ion-grid>
+    <ion-row justify-content-center align-items-center>
+      <ion-col
+        size-xs="12"
+        size-sm="10"
+        size-md="8"
+        size-lg="8"
+        size-xl="6"
+      >            
+            <form 
+              [formGroup]="mailForm"
+            >
+               <ng-container *ngIf="!isSignIn">
+                <ion-item>
+                  <ion-icon name="person" color="primary" slot="start"></ion-icon>
+                  <ion-input type="text" placeholder="Digite seu Nome" formControlName="name"></ion-input>
+                  <ion-note slot="end" color="danger" *ngIf="name.dirty && name.hasError('required')">Requerido</ion-note>
+                  <ion-note slot="end" color="danger" *ngIf="name.dirty && name.hasError('minlength')">Minimo 3 caracteres</ion-note>
+                </ion-item>
+              </ng-container>
+              <ion-item>
+                <ion-icon name="mail-open" color="primary" slot="start"></ion-icon>
+                <ion-input type="text" placeholder="Digite o Assunto" formControlName="subject"></ion-input>
+                <ion-note slot="end" color="danger" *ngIf="subject.dirty && subject.hasError('required')">Requerido</ion-note>
+                <ion-note slot="end" color="danger" *ngIf="subject.dirty && subject.hasError('minlength')">Minimo 6 caracteres</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-icon name="paper" slot="start" color="primary"></ion-icon>
+                <ion-textarea
+                  auto-grow="true"
+                  placeholder="Digite o seu feedback sobre o aplicativo"
+                  formControlName="body"
+                >
+                </ion-textarea>
+                <ion-note slot="end" color="danger" *ngIf="body.dirty && body.hasError('required')">Requerido</ion-note>
+                <ion-note slot="end" color="danger" *ngIf="body.dirty && body.hasError('minlength')">Minimo 30 caracteres</ion-note>
+              </ion-item>
+              <ion-item lines="none"></ion-item>
+              <ion-item lines="none"></ion-item>
+              <ion-fab
+                vertical="bottom"
+                horizontal="end"
+                slot="fixed"
+              >
+                <ion-fab-button [disabled]="mailForm.invalid" (click)="onSubmit()">
+                    <ion-icon name="send"></ion-icon>
+                </ion-fab-button>
+              </ion-fab>
+              
+            </form>
+        </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

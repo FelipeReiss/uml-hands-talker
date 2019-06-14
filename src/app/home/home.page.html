@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <form [formGroup]="searchForm">
+  <ion-searchbar
+    formControlName="searchTerm"
+    autofocus="true"
+    inputmode="text"
+    (ionChange)="onSearchInput()"
+    placeholder="Pesquisar termos"
+  ></ion-searchbar>
+  </form>
+  <ion-list *ngIf="(words$ | async) as words">
+    <ng-container *ngIf="words.length > 0; else noWords">
+      <app-word-item
+        *ngFor="let word of words | search : sentence" 
+        [word]="word"
+        (update)="onUpdate($event)"
+        (open)="onOpen($event)"
+        (delete)="onDelete($event)"
+        (favorite)="onChangeFav($event)"
+      ></app-word-item>
+    </ng-container>
+    <ng-template #noWords>
+      <ion-item lines="none">Sem Termos cadastradas no Momento</ion-item>
+    </ng-template>
+  </ion-list>
+  <ion-list *ngIf="error as erro">
+    <ng-container *ngIf="erro">
+      <ion-item lines="none">Ocorreu um erro para carregar os Termos UML, por favor nos envie um feedback com o erro. Segue descrição:</ion-item>
+      <br>
+      <ion-item lines="none">{{ messageError }}</ion-item>
+    </ng-container>
+  </ion-list> 
+  <ng-container 
+    *ngIf="userAdmin"
+  >
+   <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+   >
+   <ion-fab-button routerLink="/tabs/home/new-word" routerDirection="forward">      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    
+   </ion-fab>
+  </ng-container>
+
+</ion-content>

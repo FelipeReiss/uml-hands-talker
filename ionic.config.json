@@ -1,5 +1,7 @@
 {
-  "name": "devAppTeste",
-  "integrations": {},
+  "name": "UML Hands Talker",
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
