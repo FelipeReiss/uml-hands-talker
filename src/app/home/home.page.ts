@@ -26,7 +26,7 @@ export class HomePage implements OnInit {
   userLogado = false;
   userAdmin = false;
   isWord = 'Words';
-  
+
   constructor(
     private userService: UserService,
     private authService: AuthService,
@@ -139,8 +139,8 @@ export class HomePage implements OnInit {
   }
 
   async onChangeFav(word: Word): Promise<void> {
-    let userLocal = this.authService.userFirestoreClass$;
-    let index = userLocal.favoritesWords.indexOf(word.id);
+    const userLocal = this.authService.userFirestoreClass$;
+    const index = userLocal.favoritesWords.indexOf(word.id);
     this.userService.get(userLocal.id).pipe(take(1)).subscribe( valor => {
       const userFormat = valor as UserFirestoreClass;
       if (index < 0 ) {
@@ -153,14 +153,13 @@ export class HomePage implements OnInit {
       this.updateList();
     });
   }
-  
+
   private createForm(): void {
     this.searchForm = this.fb.group({
       searchTerm: ''
     });
   }
   onSearchInput() {
-    console.log(this.isWord);
     this.sentence = this.searchForm.get('searchTerm').value;
   }
 

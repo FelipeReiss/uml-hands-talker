@@ -1,9 +1,12 @@
+import { Feedback } from './models/feedback.model';
+import { FeedbackServiceService } from './services/feedback-service.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../core/services/auth.service';
 import { OverlayService } from '../core/services/overlay.service';
 import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { UserService } from '../auth/services/user.service';
+import { FeedbackClass } from './classes/feedbackClass.class';
 
 @Component({
   selector: 'app-feedback',
@@ -13,14 +16,15 @@ import { UserService } from '../auth/services/user.service';
 export class FeedbackPage implements OnInit {
 
   mailForm: FormGroup;
-  admMail = 'felipereiss@outlook.com';
   isSignIn = false;
   userName: string;
   isAdmin: boolean;
+  userMail: string;
 
   private nameControl = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
   constructor(
+    private feedbackService: FeedbackServiceService,
     private userService: UserService,
     private authService: AuthService,
     private fb: FormBuilder,
@@ -32,16 +36,27 @@ export class FeedbackPage implements OnInit {
     this.createForm();
   }
 
+  getDate() {
+    const dNow = new Date();
+    const localdate = dNow.getDate()
+                      + '/' + (dNow.getMonth() + 1)
+                      + '/' + dNow.getFullYear()
+                      + ' ' + dNow.getHours()
+                      + ':' + dNow.getMinutes();
+    return localdate;
+  }
+
   ionViewWillEnter() {
     this.authService.updateUserFireClass(this.userService);
   }
 
   ionViewDidEnter(): void {
       if (this.authService.userFirebase) {
-        this.isSignIn = true;
-        this.userName = this.authService.userFirebase.displayName;
         this.mailForm.removeControl('name');
         this.mailForm.removeControl('email');
+        this.isSignIn = true;
+        this.userName = this.authService.userFirebase.displayName;
+        this.userMail = this.authService.userFirebase.email;
         this.isAdmin = this.authService.userFirestoreClass$.admin;
       } else {
         this.isAdmin = false;
@@ -59,11 +74,10 @@ export class FeedbackPage implements OnInit {
       body: ['', [Validators.required, Validators.minLength(30)]]
     });
   }
-  
+
   get email(): FormControl {
     return this.mailForm.get('email') as FormControl;
   }
-
   get name(): FormControl {
     return this.mailForm.get('name') as FormControl;
   }
@@ -75,17 +89,24 @@ export class FeedbackPage implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    if (!this.isSignIn) {
-      this.userName = this.mailForm.get('name').value;
+    let feedbackMessage = new FeedbackClass();
+    console.log(this.mailForm.get('name').value);
+    
+    console.log(this.mailForm.get('email').value);
+    if (this.isSignIn) {
+      feedbackMessage.senderName = this.userName;
+      feedbackMessage.senderMail = this.userMail;
+    } else {
+      feedbackMessage.senderName = this.mailForm.get('name').value;
+      feedbackMessage.senderMail = this.mailForm.get('email').value;
     }
     await this.overlayService.alert({
-      // tslint:disable-next-line:max-line-length
-      message: this.userName + ', deseja realmente enviar este Feedback?',
+      message: feedbackMessage.senderName + ', deseja realmente enviar este Feedback?',
       buttons: [
         {
           text: 'Enviar',
           handler: async () => {
-            this.sendMail();
+            this.sendMail(feedbackMessage);
           }
         },
         'Cancelar'
@@ -93,28 +114,28 @@ export class FeedbackPage implements OnInit {
     });
   }
 
-  async sendMail(): Promise<void> {
-    await this.overlayService.alert({
-      // tslint:disable-next-line:max-line-length
-      message: this.userName + ', você será direcionado(a) para seu aplicativo de e-mails padrão para enviar ao nosso suporte.\nPor gentileza, não se esqueça de clicar no botão de envio.',
-      buttons: [
-        'Ok'
-      ]
-    });
+  async sendMail(feedbackMessage): Promise<void> {
+    feedbackMessage.isOpen = false;
+    feedbackMessage.dateTime = this.getDate();
+    feedbackMessage.subject = this.mailForm.get('subject').value;
+    feedbackMessage.body = this.mailForm.get('body').value;
+
     const loading = await this.overlayService.loading({
-      message: 'Abrindo aplicativo padrão de email...'
+      message: 'Obrigado pelo seu feedback!\nPor favor, aguarde um momento...'
     });
     try {
-      this.emailComposer.open({
-        to: this.admMail,
-        subject: this.mailForm.get('subject').value,
-        // tslint:disable-next-line:max-line-length
-        body: 'Olá,\n\nEu sou ' + this.userName + ' e tenho o seguinte Feedback sobre seu aplicativo: \n' + this.mailForm.get('body').value,
-        isHtml: true
+      this.feedbackService.create({
+        id: undefined,
+        senderName: feedbackMessage.senderName,
+        senderMail: feedbackMessage.senderMail,
+        subject: feedbackMessage.subject,
+        body: feedbackMessage.body,
+        dateTime: feedbackMessage.dateTime,
+        isOpen: false
       });
       await this.overlayService.toast({
         message: 'Feedback enviado com sucesso!',
-        duration: 90000
+        duration: 6000
       });
       this.mailForm.reset();
     } catch (error) {
@@ -126,5 +147,4 @@ export class FeedbackPage implements OnInit {
       loading.dismiss();
     }
   }
-
 }

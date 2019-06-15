@@ -88,7 +88,6 @@ export class AdminSettingsPage implements OnInit {
   }
 
   async onChangeAdmin(user: UserFirestore): Promise<void> {
-    console.log(user);
     this.userService.update({
       id: user.id,
       admin: !user.admin,
