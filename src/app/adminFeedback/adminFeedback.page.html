@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+        <ion-menu-toggle>
+          <ion-button>
+            <ion-icon
+              slot="icon-only"
+              name="menu" 
+            >
+            </ion-icon>
+          </ion-button>
+        </ion-menu-toggle>
+      </ion-buttons>
+      <ion-title text-center align-self-center>
+        Histórico de Feedbacks
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+<ion-content padding>
+  <ion-list class="background"
+  *ngIf="(feedback$ | async) as feedbacks">
+    <ng-container *ngIf="feedbacks.length > 0; else noFeedbacks">
+      <form [formGroup]="searchForm">
+          <ion-searchbar
+            formControlName="searchTerm"
+            autofocus="true"
+            inputmode="text"
+            (ionChange)="onSearchInput()"
+            placeholder="Pesquisar termos"
+          ></ion-searchbar>
+      </form>
+      <app-feedback-item-admin
+        class="background"
+        *ngFor="let feedback of feedbacks | search : { filter: sentence, whatPage: isFeedback }" 
+        [feedback]="feedback"
+        (delete)="onDelete($event)"
+        (isOpen)="onChangeAdmin($event)"
+        (open)="onOpen($event)"
+      ></app-feedback-item-admin>
+    </ng-container>
+    <ng-template #noFeedbacks>
+      <ion-item 
+      class="background" 
+      lines="none">Sem Feedbacks no Momento</ion-item>
+    </ng-template>
+  </ion-list>
+  <ion-list 
+  class="background"
+  *ngIf="error as erro">
+    <ng-container *ngIf="erro">
+      <ion-item 
+      class="background"
+      lines="none">Ocorreu um erro para carregar os Feedbacks, por favor verifique o erro. Segue descrição:</ion-item>
+      <br>
+      <ion-item 
+      class="background"
+      lines="none">{{ messageError }}</ion-item>
+    </ng-container>
+  </ion-list>
+</ion-content>

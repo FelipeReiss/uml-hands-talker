@@ -47,6 +47,16 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'adminFeedback',
+        children: [
+          {
+            path: '',
+            loadChildren: '../adminFeedback/adminFeedback.module#AdminFeedbackPageModule',
+            canLoad: [AuthGuard]
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

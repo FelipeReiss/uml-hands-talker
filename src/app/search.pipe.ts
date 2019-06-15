@@ -20,24 +20,39 @@ export class SearchPipe implements PipeTransform {
     this.items = items.slice();
     this.terms = obj.filter;
     this.whatPage = obj.whatPage;
+    this.authService.isAuthenticated.pipe(take(1)).subscribe( isAuth => {
+      if (isAuth) {
+        this.authService.updateUserFireClass(this.userService);
+      }
+    });
     if (this.whatPage === 'Favorites' || this.whatPage === 'Words') {
       return this.filterWords();
     } else {
       if (this.whatPage === 'AdminSettings') {
         return this.filterAdminSettings();
       } else {
-        return [];
+        if (this.whatPage === 'AdminFeedback') { 
+          return this.filterAdminFeedbacks();
+        } else {
+          return [];
+        }
       }
     }
  }
 
- filterAdminSettings(): any[] {
-  this.authService.isAuthenticated.pipe(take(1)).subscribe( isAuth => {
-    if (isAuth) {
-      this.authService.updateUserFireClass(this.userService);
-    }
-  });
+ filterAdminFeedbacks(): any[] {
+  if (!this.items) { return []; }
 
+  if (!this.terms) { return this.items; }
+
+  this.terms = this.terms.toLowerCase();
+
+  return this.items.filter( it => {
+    return it.senderName.toLowerCase().includes(this.terms);
+  });
+ }
+
+ filterAdminSettings(): any[] {
   let list = [];
 
   for (let i=0; i < this.items.length; i++) {
@@ -59,12 +74,6 @@ export class SearchPipe implements PipeTransform {
 
   filterWords(): any[]{
     let listFavorites = [];
-
-    this.authService.isAuthenticated.pipe(take(1)).subscribe( isAuth => {
-      if (isAuth) {
-        this.authService.updateUserFireClass(this.userService);
-      }
-    });
 
     if (this.authService.userFirestoreClass$) {
       listFavorites = this.authService.userFirestoreClass$.favoritesWords.slice();
