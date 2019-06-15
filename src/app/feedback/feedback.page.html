@@ -50,7 +50,7 @@
                 <ion-note slot="end" color="danger" *ngIf="subject.dirty && subject.hasError('minlength')">Minimo 6 caracteres</ion-note>
               </ion-item>
               <ion-item>
-                <ion-icon name="paper" slot="start" color="primary"></ion-icon>
+                <ion-icon name="list" slot="start" color="primary"></ion-icon>
                 <ion-textarea
                   auto-grow="true"
                   placeholder="Digite o seu feedback sobre o aplicativo"
@@ -68,7 +68,7 @@
                 slot="fixed"
               >
                 <ion-fab-button [disabled]="mailForm.invalid" (click)="onSubmit()">
-                    <ion-icon name="send"></ion-icon>
+                    <ion-icon name="paper-plane"></ion-icon>
                 </ion-fab-button>
               </ion-fab>
               

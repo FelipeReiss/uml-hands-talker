@@ -9,7 +9,7 @@ import { Feedback } from 'src/app/feedback/models/feedback.model';
 export class FeedbackItemAdminComponent {
 
   @Input() feedback: Feedback;
-  @Output() isOpen = new EventEmitter<Feedback>();
+  @Output() isClosed = new EventEmitter<Feedback>();
   @Output() delete = new EventEmitter<Feedback>();
   @Output() open = new EventEmitter<Feedback>();
 

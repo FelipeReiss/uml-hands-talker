@@ -34,7 +34,7 @@
         *ngFor="let feedback of feedbacks | search : { filter: sentence, whatPage: isFeedback }" 
         [feedback]="feedback"
         (delete)="onDelete($event)"
-        (isOpen)="onChangeAdmin($event)"
+        (isClosed)="onChangeAdmin($event)"
         (open)="onOpen($event)"
       ></app-feedback-item-admin>
     </ng-container>

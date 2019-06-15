@@ -5,6 +5,6 @@ export interface Feedback {
     subject: string;
     body: string;
     dateTime: string;
-    isOpen: boolean;
+    isClosed: boolean;
 }
  

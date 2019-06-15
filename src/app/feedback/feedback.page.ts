@@ -115,7 +115,6 @@ export class FeedbackPage implements OnInit {
   }
 
   async sendMail(feedbackMessage): Promise<void> {
-    feedbackMessage.isOpen = false;
     feedbackMessage.dateTime = this.getDate();
     feedbackMessage.subject = this.mailForm.get('subject').value;
     feedbackMessage.body = this.mailForm.get('body').value;
@@ -131,7 +130,7 @@ export class FeedbackPage implements OnInit {
         subject: feedbackMessage.subject,
         body: feedbackMessage.body,
         dateTime: feedbackMessage.dateTime,
-        isOpen: false
+        isClosed: true
       });
       await this.overlayService.toast({
         message: 'Feedback enviado com sucesso!',

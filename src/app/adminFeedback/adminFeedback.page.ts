@@ -91,7 +91,7 @@ export class AdminFeedbackPage implements OnInit {
   async onChangeAdmin(feedback: Feedback): Promise<void> {
     this.feedbackService.update({
       ...feedback,
-      isOpen: !feedback.isOpen
+      isClosed: !feedback.isClosed
     });
     this.authService.updateUserFireClass(this.userService);
     this.updateList();
@@ -111,6 +111,10 @@ export class AdminFeedbackPage implements OnInit {
   }
 
   onOpen(feedback: Feedback): void {
+    this.feedbackService.update({
+      ...feedback,
+      isClosed: !feedback.isClosed
+    });
     this.navCtrl.navigateForward(`/tabs/adminFeedback/show/${feedback.id}`);
   }
 }
