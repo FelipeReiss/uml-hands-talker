@@ -37,7 +37,7 @@
           </ion-item>
       <app-word-item 
         class="background"
-        *ngFor="let word of words | search : sentence : isFav" 
+        *ngFor="let word of words | search :  { filter: sentence, whatPage: isFav }" 
         [word]="word"
         (open)="onOpen($event)"
         (favorite)="onChangeFav($event)"

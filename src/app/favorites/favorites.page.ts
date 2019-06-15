@@ -22,7 +22,7 @@ export class FavoritesPage implements OnInit {
   messageError: string;
   searchForm: FormGroup;
   sentence: string;
-  isFav = true;
+  isFav = 'Favorites';
 
   constructor(
     private userService: UserService,

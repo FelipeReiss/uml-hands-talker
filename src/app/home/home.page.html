@@ -33,7 +33,7 @@
       >
       <app-word-item-logout
         class="background"
-        *ngFor="let word of words | search : sentence" 
+        *ngFor="let word of words | search : { filter: sentence, whatPage: isWord }" 
         [word]="word"
         (update)="onUpdate($event)"
         (open)="onOpen($event)"
@@ -51,7 +51,7 @@
           >
           <app-word-item-admin
             class="background"
-            *ngFor="let word of words | search : sentence" 
+            *ngFor="let word of words | search : { filter: sentence, whatPage: isWord }" 
             [word]="word"
             (update)="onUpdate($event)"
             (open)="onOpen($event)"
@@ -62,7 +62,7 @@
           <ng-template #notAdmin>
               <app-word-item
                 class="background"
-                *ngFor="let word of words | search : sentence" 
+                *ngFor="let word of words | search : { filter: sentence, whatPage: isWord }" 
                 [word]="word"
                 (update)="onUpdate($event)"
                 (open)="onOpen($event)"

@@ -25,6 +25,8 @@ export class HomePage implements OnInit {
   userApp;
   userLogado = false;
   userAdmin = false;
+  isWord = 'Words';
+  
   constructor(
     private userService: UserService,
     private authService: AuthService,
@@ -116,6 +118,7 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.isWord = 'Words';
     this.searchForm.get('searchTerm').setValue('  ');
     this.authService.updateUserFireClass(this.userService);
   }
@@ -157,6 +160,7 @@ export class HomePage implements OnInit {
     });
   }
   onSearchInput() {
+    console.log(this.isWord);
     this.sentence = this.searchForm.get('searchTerm').value;
   }
 

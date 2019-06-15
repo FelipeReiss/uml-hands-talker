@@ -31,7 +31,7 @@
       </form>
       <app-user-item-admin
         class="background"
-        *ngFor="let user of user | search : sentence" 
+        *ngFor="let user of users | search : { filter: sentence, whatPage: isAdm }" 
         [user]="user"
         (delete)="onDelete($event)"
         (admin)="onChangeAdmin($event)"

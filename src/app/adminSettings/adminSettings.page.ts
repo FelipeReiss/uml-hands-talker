@@ -21,7 +21,7 @@ export class AdminSettingsPage implements OnInit {
   messageError: string;
   searchForm: FormGroup;
   sentence: string;
-  isFav = true;
+  isAdm = 'AdminSettings'; 
 
   constructor(
     private userService: UserService,
@@ -88,7 +88,7 @@ export class AdminSettingsPage implements OnInit {
   }
 
   async onChangeAdmin(user: UserFirestore): Promise<void> {
-
+    console.log(user);
     this.userService.update({
       id: user.id,
       admin: !user.admin,
