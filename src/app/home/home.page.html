@@ -97,8 +97,20 @@
     horizontal="end"
     slot="fixed"
    >
-   <ion-fab-button routerLink="/tabs/home/new-word" routerDirection="forward">      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
+   <ion-fab-button routerLink="/tabs/home/new-word" routerDirection="forward">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+    
+   </ion-fab>
+
+   <ion-fab
+    vertical="bottom"
+    horizontal="start"
+    slot="fixed"
+   >
+   <ion-fab-button (click)="onReset()">
+    <ion-icon name="refresh"></ion-icon>
+  </ion-fab-button>
     
    </ion-fab>
   </ng-container>

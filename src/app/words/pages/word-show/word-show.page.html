@@ -3,30 +3,30 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>
+    <ion-title text-center>
         {{ wordTitle }}
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-    <ion-item>
+    <ion-item lines="none" text-center>
         <ion-icon name="logo-youtube" slot="start" color="primary"></ion-icon>
-        <ion-label>
+        <ion-label text-center>
         Explicação em Libras
       </ion-label>
     </ion-item>
-    <ion-item>
-        <iframe [src]="getSafeLink()" frameborder="0" autoplay allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <ion-item lines="none" text-center>
+        <iframe width="100%" height="315" [src]="getSafeLink()" frameborder="0" autoplay allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </ion-item>
     <ion-item lines="none"></ion-item>
-    <ion-item>
-      <ion-icon name="paper" slot="start" color="primary"></ion-icon>
-      <ion-label>
+    <ion-item lines="none">
+      <ion-icon name="list" slot="start" color="primary"></ion-icon>
+      <ion-label text-center>
       Explicação em Português
     </ion-label>
     </ion-item>
-    <ion-item>
+    <ion-item lines="none">
         <ion-label text-wrap>
      {{ wordDescription }}
       </ion-label>
