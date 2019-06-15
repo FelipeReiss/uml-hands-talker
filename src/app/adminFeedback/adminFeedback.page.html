@@ -29,10 +29,15 @@
             placeholder="Pesquisar termos"
           ></ion-searchbar>
       </form>
-      <ion-item>
+      <ion-item lines="none">
           <ion-icon name="contacts" slot="start" color="primary"></ion-icon>
-          <ion-icon name="mail-unread" slot="end" color="primary"></ion-icon>
-      </ion-item>
+          <ng-container *ngIf="feedbackUsers != 0 ; else allOpened">
+            <ion-icon name="mail-unread" slot="end" color="primary"></ion-icon>
+          </ng-container>
+          <ng-template #allOpened>
+              <ion-icon name="mail-open" slot="end" color="primary"></ion-icon>
+          </ng-template>
+        </ion-item>
       <app-feedback-item-admin
         class="background"
         *ngFor="let feedback of feedbacks | search : { filter: sentence, whatPage: isFeedback }" 

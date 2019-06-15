@@ -47,6 +47,12 @@ export abstract class Firestore<W extends { id: string }> {
          }).valueChanges();
     }
 
+    getMailsClosed(obj: any, filter: any, collection: string) {
+        return this.db.collection(collection, ref => {
+            return ref.where(obj, '==', filter);
+        }).valueChanges();
+    }
+
     searchArray(collection: string, field: string, filter: string) {
         return this.db.collection(collection, ref => {
             return ref.where(field, 'array-contains', filter);

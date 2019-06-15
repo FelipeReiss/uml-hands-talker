@@ -1,5 +1,5 @@
 <ion-item-sliding #sliding>
-  <ion-item (click)="open.emit(word)"> 
+  <ion-item lines="none" (click)="open.emit(word)"> 
     {{ word.title }}
     <ion-toggle slot="end" color="primary" [checked]="word.done" (ionChange)="favorite.emit(word)" (click)="$event.stopPropagation()"></ion-toggle>
   </ion-item>

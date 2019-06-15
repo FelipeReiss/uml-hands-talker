@@ -22,6 +22,7 @@ export class AdminFeedbackPage implements OnInit {
   searchForm: FormGroup;
   sentence: string;
   isFeedback = 'AdminFeedback';
+  feedbackUsers = 0;
 
   constructor(
     private userService: UserService,
@@ -57,6 +58,9 @@ export class AdminFeedbackPage implements OnInit {
   ionViewWillEnter() {
     this.searchForm.get('searchTerm').setValue('  ');
     this.authService.updateUserFireClass(this.userService);
+    this.feedbackService.getMailsClosed('isClosed', true, '/feedbacks').subscribe((result) => {
+      this.feedbackUsers = result.length;
+    });
   }
 
   async ionViewDidEnter() {

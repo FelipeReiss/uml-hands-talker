@@ -1,5 +1,5 @@
 <ion-item-sliding #sliding>
-  <ion-item (click)="open.emit(feedback)"> 
+  <ion-item lines="none" (click)="open.emit(feedback)"> 
     {{ feedback.senderName }}
     <ion-toggle slot="end" color="primary" [checked]="feedback.isClosed" (ionChange)="isClosed.emit(feedback)" (click)="$event.stopPropagation()"></ion-toggle>
   </ion-item>
