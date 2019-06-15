@@ -41,7 +41,8 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: '../adminSettings/adminSettings.module#AdminSettingsPageModule'
+            loadChildren: '../adminSettings/adminSettings.module#AdminSettingsPageModule',
+            canLoad: [AuthGuard]
           }
         ]
       },
