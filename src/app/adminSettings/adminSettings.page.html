@@ -29,6 +29,10 @@
             placeholder="Pesquisar termos"
           ></ion-searchbar>
       </form>
+      <ion-item>
+          <ion-icon name="contacts" slot="start" color="primary"></ion-icon>
+          <ion-icon name="settings" slot="end" color="primary"></ion-icon>
+      </ion-item>
       <app-user-item-admin
         class="background"
         *ngFor="let user of users | search : { filter: sentence, whatPage: isAdm }" 
