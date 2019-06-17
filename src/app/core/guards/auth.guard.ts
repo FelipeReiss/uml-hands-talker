@@ -16,7 +16,12 @@ export class AuthGuard implements CanActivate, CanLoad {
   }
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> {
-    const url = '/tabs/favorites';
+    let url = '/tabs/home';
+    if (this.authService.getNextPacth() !== '') {
+      url = this.authService.getNextPacth();
+    }
+    this.authService.setNextPath('');
+    // console.log(window.location.pathname);
     return this.checkAuthState(url).pipe(take(1));
   }
 

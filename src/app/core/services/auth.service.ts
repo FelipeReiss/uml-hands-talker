@@ -13,8 +13,11 @@ import { map, take } from 'rxjs/operators';
 export class AuthService {
   operation: Promise<auth.UserCredential>;
   authState$: Observable<firebase.User>;
-  userFirestoreClass$ = new UserFirestoreClass();
-  userFirebase;
+  private userFirestoreClass = new UserFirestoreClass();
+  private userFirebase;
+  private feedbackUsers = 0;
+  private nextPath: '';
+
   constructor(
     private afAuth: AngularFireAuth,
   ) {
@@ -25,24 +28,39 @@ export class AuthService {
     return this.authState$.pipe(map(user => user !== null));
   }
 
-  doAuthenticate({ isSignIn, provider, user }: AuthOptions): void {
-    if (provider !== AuthProvider.Email){
-      this.operation = this.signInWithPopup(provider);
+  doAuthenticate({ isSignIn, provider, user }: AuthOptions): Promise<auth.UserCredential> {
+    if (provider !== AuthProvider.Email) {
+      return this.signInWithPopup(provider);
     } else {
-      this.operation = isSignIn ? this.signInWithEmail(user) : this.signUpWithEmail(user);
+      return isSignIn ? this.signInWithEmail(user) : this.signUpWithEmail(user);
     }
   }
 
+  timeOut(time: number) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(time);
+      }, time);
+    });
+  }
 
-  tryAuthenticate({ isSignIn, provider, user }: AuthOptions, userService: UserService ): Promise<auth.UserCredential> {
-    this.doAuthenticate({isSignIn, provider, user});
-    this.updateUserFireClass(userService).finally();
+  async tryAuthenticate({ isSignIn, provider, user }: AuthOptions, userService: UserService ): Promise<auth.UserCredential> {
+    this.operation = this.doAuthenticate({isSignIn, provider, user});
+    this.isAuthenticated.pipe(take(1)).subscribe(isAuth => {
+      if (isAuth) {
+        this.updateUserFireClass(userService);
+      } else {
+        this.setUserFireClass(undefined);
+      }
+    });
     return this.operation;
   }
+
   callback(): void {
   }
+
   updateUserFireClass(userService): Promise<void> {
-    let promise = new Promise<void>(this.callback);
+    const promise = new Promise<void>(this.callback);
     const userFirestoreClass = new UserFirestoreClass();
     if (this.userFirebase) {
       userFirestoreClass.id = this.userFirebase.uid;
@@ -65,21 +83,25 @@ export class AuthService {
             email: this.userFirebase.email
         });
         }
-        this.setUser(userFirestoreClass);
+        this.setUserFireClass(userFirestoreClass);
       }
       );
     } else {
-      this.removeUser();
+      this.cleanUserApp();
     }
     return promise;
   }
 
-  setUser(userFirestoreClass: UserFirestoreClass): void {
-    this.userFirestoreClass$ = userFirestoreClass;
-   }
+  setNextPath(path: string){
+    this.nextPath = path;
+  }
+
+  getNextPacth(){
+    return this.nextPath;
+  }
 
   removeUser(): void {
-    this.userFirestoreClass$ = new UserFirestoreClass;
+    this.userFirestoreClass = undefined;
   }
 
   setUserFire(user): void {
@@ -90,9 +112,38 @@ export class AuthService {
     return this.userFirebase;
   }
 
-  logout(): Promise<void> {
-    this.userFirestoreClass$ = new UserFirestoreClass();
+  setUserFireClass(user): void {
+    this.userFirestoreClass = user;
+  }
+
+  getUserFireClass() {
+    return this.userFirestoreClass;
+  }
+
+  setFeedbackUsers(feedbackService): void {
+    this.isAuthenticated.pipe(take(1)).subscribe((isAuth) => {
+      if (isAuth){
+        feedbackService.getMailsClosed('isClosed', true, '/feedbacks').subscribe((result) => {
+          this.feedbackUsers = result.length;
+        });
+      } else {
+        this.feedbackUsers = 0;
+      }
+    });
+  }
+
+  getFeedbackUsers() {
+    return this.feedbackUsers;
+  }
+
+  cleanUserApp(): void {
+    this.operation = undefined;
+    this.userFirestoreClass = undefined;
     this.userFirebase = undefined;
+  }
+
+  logout(): Promise<void> {
+    this.cleanUserApp();
     return this.afAuth.auth.signOut();
   }
 

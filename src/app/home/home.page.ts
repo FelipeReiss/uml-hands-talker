@@ -37,17 +37,19 @@ export class HomePage implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    const loading = await this.overlayService.loading();
     this.authService.authState$.subscribe(async user => {
       this.authService.setUserFire(user);
       if (user) {
         this.userLogado = true;
-        this.userAdmin = this.authService.userFirestoreClass$.admin;
+        this.authService.updateUserFireClass(this.userService);
+        await this.timeOut(1000).then(() => this.userAdmin = this.authService.getUserFireClass().admin
+        );
       }
       this.updateList();
     });
-    this.userApp = this.authService.userFirestoreClass$;
+    this.userApp = this.authService.getUserFireClass();
     this.createForm();
-    const loading = await this.overlayService.loading();
     this.words$ = null;
     try {
       this.words$ = this.wordsService.getAll();
@@ -119,8 +121,13 @@ export class HomePage implements OnInit {
 
   ionViewWillEnter() {
     this.isWord = 'Words';
-    this.searchForm.get('searchTerm').setValue('  ');
-    this.authService.updateUserFireClass(this.userService);
+    this.authService.isAuthenticated.pipe(take(1)).subscribe( isAuth => {
+      if (isAuth) {
+        this.authService.updateUserFireClass(this.userService);
+      } else {
+        this.authService.setUserFireClass(undefined);
+      }
+    });
   }
 
   async ionViewDidEnter() {
@@ -130,16 +137,18 @@ export class HomePage implements OnInit {
     await this.timeOut(500)
     .then(() => {
       this.searchForm.get('searchTerm').setValue('');
-      this.userAdmin = this.authService.userFirestoreClass$.admin;
       this.authService.isAuthenticated.pipe(take(1)).subscribe( isAuth => {
         this.userLogado = isAuth;
+        if (isAuth) {
+          this.userAdmin = this.authService.getUserFireClass().admin;
+        }
       });
       loading.dismiss();
     });
   }
 
   async onChangeFav(word: Word): Promise<void> {
-    const userLocal = this.authService.userFirestoreClass$;
+    const userLocal = this.authService.getUserFireClass();
     const index = userLocal.favoritesWords.indexOf(word.id);
     this.userService.get(userLocal.id).pipe(take(1)).subscribe( valor => {
       const userFormat = valor as UserFirestoreClass;

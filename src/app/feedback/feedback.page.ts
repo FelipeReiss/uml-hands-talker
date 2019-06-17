@@ -29,7 +29,6 @@ export class FeedbackPage implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private overlayService: OverlayService,
-    private emailComposer: EmailComposer
   ) { }
 
   ngOnInit() {
@@ -51,13 +50,13 @@ export class FeedbackPage implements OnInit {
   }
 
   ionViewDidEnter(): void {
-      if (this.authService.userFirebase) {
+      if (this.authService.getUserFire()) {
         this.mailForm.removeControl('name');
         this.mailForm.removeControl('email');
         this.isSignIn = true;
-        this.userName = this.authService.userFirebase.displayName;
-        this.userMail = this.authService.userFirebase.email;
-        this.isAdmin = this.authService.userFirestoreClass$.admin;
+        this.userName = this.authService.getUserFire().displayName;
+        this.userMail = this.authService.getUserFire().email;
+        this.isAdmin = this.authService.getUserFireClass().admin;
       } else {
         this.isAdmin = false;
         this.isSignIn = false;
@@ -90,9 +89,6 @@ export class FeedbackPage implements OnInit {
 
   async onSubmit(): Promise<void> {
     let feedbackMessage = new FeedbackClass();
-    console.log(this.mailForm.get('name').value);
-    
-    console.log(this.mailForm.get('email').value);
     if (this.isSignIn) {
       feedbackMessage.senderName = this.userName;
       feedbackMessage.senderMail = this.userMail;

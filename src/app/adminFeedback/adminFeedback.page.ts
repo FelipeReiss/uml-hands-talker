@@ -58,9 +58,8 @@ export class AdminFeedbackPage implements OnInit {
   ionViewWillEnter() {
     this.searchForm.get('searchTerm').setValue('  ');
     this.authService.updateUserFireClass(this.userService);
-    this.feedbackService.getMailsClosed('isClosed', true, '/feedbacks').subscribe((result) => {
-      this.feedbackUsers = result.length;
-    });
+    this.authService.setFeedbackUsers(this.feedbackService);
+    this.timeOut(500).then(() => this.feedbackUsers = this.authService.getFeedbackUsers());
   }
 
   async ionViewDidEnter() {

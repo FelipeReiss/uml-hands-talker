@@ -34,8 +34,8 @@ export class FavoritesPage implements OnInit {
   ) { }
 
   haveFav(): boolean{
-    if (this.authService.userFirestoreClass$.favoritesWords.length != 0) {
-      if(this.authService.userFirestoreClass$.favoritesWords[0] === '') {
+    if (this.authService.getUserFireClass().favoritesWords.length !== 0) {
+      if (this.authService.getUserFireClass().favoritesWords.length === 1 && this.authService.getUserFireClass().favoritesWords[0] === '') {
         return false;
       } else {
         return true;
@@ -105,7 +105,7 @@ export class FavoritesPage implements OnInit {
   }
 
   async onChangeFav(word: Word): Promise<void> {
-    let userLocal = this.authService.userFirestoreClass$;
+    let userLocal = this.authService.getUserFireClass();
     let index = userLocal.favoritesWords.indexOf(word.id);
     this.userService.get(userLocal.id).pipe(take(1)).subscribe( valor => {
       const userFormat = valor as UserFirestoreClass;

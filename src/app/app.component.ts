@@ -17,6 +17,7 @@ export class AppComponent {
   userFirestoreClass = new UserFirestoreClass();
 
   constructor(
+    private userService: UserService,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
@@ -31,6 +32,7 @@ export class AppComponent {
     this.authService.authState$.subscribe(async user => {
       this.user = user;
       this.authService.setUserFire(user);
+      this.authService.updateUserFireClass(this.userService);
     });
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -48,7 +50,7 @@ export class AppComponent {
             const loading = await this.overlayService.loading();
             await this.authService.logout()
             .then(() => {
-              this.navCtrl.navigateRoot('/tabs/home');
+              this.navCtrl.navigateRoot('/tabs/home').then(() => window.location.reload());
               loading.dismiss();
           });
           }

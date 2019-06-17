@@ -79,7 +79,10 @@ export class LoginPage implements OnInit {
         user: this.authForm.value,
         provider
       }, this.userService);
-      this.navCtrl.navigateRoot(this.route.snapshot.queryParamMap.get('redirect') || '/tabs/home');
+      await this.timeOut(1000)
+        .then(() => {
+          this.navCtrl.navigateRoot(this.route.snapshot.queryParamMap.get('redirect') || '/tabs/home').then(() => window.location.reload());
+        });
     } catch (error) {
       this.overlayService.toast({
         message: error.message,

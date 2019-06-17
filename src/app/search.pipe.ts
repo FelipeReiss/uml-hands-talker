@@ -31,7 +31,7 @@ export class SearchPipe implements PipeTransform {
       if (this.whatPage === 'AdminSettings') {
         return this.filterAdminSettings();
       } else {
-        if (this.whatPage === 'AdminFeedback') { 
+        if (this.whatPage === 'AdminFeedback') {
           return this.filterAdminFeedbacks();
         } else {
           return [];
@@ -56,7 +56,7 @@ export class SearchPipe implements PipeTransform {
   let list = [];
 
   for (let i=0; i < this.items.length; i++) {
-    if (this.authService.userFirestoreClass$.id != this.items[i].id){
+    if (this.authService.getUserFireClass().id !== this.items[i].id){
       list.push(this.items[i]);
     }
   }
@@ -75,8 +75,8 @@ export class SearchPipe implements PipeTransform {
   filterWords(): any[]{
     let listFavorites = [];
 
-    if (this.authService.userFirestoreClass$) {
-      listFavorites = this.authService.userFirestoreClass$.favoritesWords.slice();
+    if (this.authService.getUserFireClass()) {
+      listFavorites = this.authService.getUserFireClass().favoritesWords.slice();
     }
     if (!this.items) { return []; }
 
