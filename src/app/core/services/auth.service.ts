@@ -16,7 +16,7 @@ export class AuthService {
   private userFirestoreClass = new UserFirestoreClass();
   private userFirebase;
   private feedbackUsers = 0;
-  private nextPath: '';
+  private nextPath = '';
 
   constructor(
     private afAuth: AngularFireAuth,
