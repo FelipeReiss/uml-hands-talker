@@ -34,7 +34,7 @@ export class HomePage implements OnInit {
     private wordsService: WordsService,
     private overlayService: OverlayService,
     private navCtrl: NavController
-  ) { }
+  ) {}
 
   async ngOnInit(): Promise<void> {
     const loading = await this.overlayService.loading();
@@ -43,7 +43,8 @@ export class HomePage implements OnInit {
       if (user) {
         this.userLogado = true;
         this.authService.updateUserFireClass(this.userService);
-        await this.timeOut(1000).then(() => this.userAdmin = this.authService.getUserFireClass().admin
+        await this.timeOut(1000).then(
+          () => (this.userAdmin = this.authService.getUserFireClass().admin)
         );
       }
       this.updateList();
@@ -83,9 +84,7 @@ export class HomePage implements OnInit {
               await this.wordsService.delete(word);
               let allUsers: Observable<{}[]>;
 
-              this.userService
-              .searchArray('/users', 'favoritesWords', word.id)
-              .subscribe(valor => {
+              this.userService.searchArray('/users', 'favoritesWords', word.id).subscribe(valor => {
                 // tslint:disable-next-line:prefer-for-of
                 for (let i = 0; i < valor.length; i++) {
                   const userFormat = valor[i] as UserFirestoreClass;
@@ -98,7 +97,9 @@ export class HomePage implements OnInit {
               });
             } catch (error) {
               await this.overlayService.alert({
-                message: `Não foi possivel deletar termo "${word.title}". Favor encaminhar feedback com o erro abaixo: \n${error.message}`,
+                message: `Não foi possivel deletar termo "${
+                  word.title
+                }". Favor encaminhar feedback com o erro abaixo: \n${error.message}`,
                 buttons: ['OK']
               });
             } finally {
@@ -121,7 +122,7 @@ export class HomePage implements OnInit {
 
   ionViewWillEnter() {
     this.isWord = 'Words';
-    this.authService.isAuthenticated.pipe(take(1)).subscribe( isAuth => {
+    this.authService.isAuthenticated.pipe(take(1)).subscribe(isAuth => {
       if (isAuth) {
         this.authService.updateUserFireClass(this.userService);
       } else {
@@ -134,10 +135,9 @@ export class HomePage implements OnInit {
     const loading = await this.overlayService.loading({
       message: 'Atualizando lista de termos...'
     });
-    await this.timeOut(500)
-    .then(() => {
+    await this.timeOut(500).then(() => {
       this.searchForm.get('searchTerm').setValue('');
-      this.authService.isAuthenticated.pipe(take(1)).subscribe( isAuth => {
+      this.authService.isAuthenticated.pipe(take(1)).subscribe(isAuth => {
         this.userLogado = isAuth;
         if (isAuth) {
           this.userAdmin = this.authService.getUserFireClass().admin;
@@ -150,17 +150,20 @@ export class HomePage implements OnInit {
   async onChangeFav(word: Word): Promise<void> {
     const userLocal = this.authService.getUserFireClass();
     const index = userLocal.favoritesWords.indexOf(word.id);
-    this.userService.get(userLocal.id).pipe(take(1)).subscribe( valor => {
-      const userFormat = valor as UserFirestoreClass;
-      if (index < 0 ) {
-        userFormat.favoritesWords.push(word.id);
-      } else {
-        userFormat.favoritesWords.splice(index, 1);
-      }
-      this.userService.update(userFormat);
-      this.authService.updateUserFireClass(this.userService);
-      this.updateList();
-    });
+    this.userService
+      .get(userLocal.id)
+      .pipe(take(1))
+      .subscribe(valor => {
+        const userFormat = valor as UserFirestoreClass;
+        if (index < 0) {
+          userFormat.favoritesWords.push(word.id);
+        } else {
+          userFormat.favoritesWords.splice(index, 1);
+        }
+        this.userService.update(userFormat);
+        this.authService.updateUserFireClass(this.userService);
+        this.updateList();
+      });
   }
 
   private createForm(): void {
@@ -195,6 +198,7 @@ export class HomePage implements OnInit {
           link: allWords[i][2]
         });
       }
+      await this.timeOut(15000);
     } catch (e) {
       this.overlayService.toast({
         message: e.message
@@ -204,53 +208,200 @@ export class HomePage implements OnInit {
     }
   }
 
-resetFirebase() {
+  resetFirebase() {
     const array = [];
-// tslint:disable-next-line: max-line-length
-    array.push(['Ator', 'É algo ou alguém que representa alguma ação que ocorre no sistema, como por exemplo uma pessoa usando o aplicativo ou outro sistema utilizando alguma função disponível do aplicativo.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Papel', 'É aquilo que o Ator representa dentro do sistema, buscando representar uma situação ou condição real. Por exemplo, uma pessoa utilizando o software pode representar mais de um papel.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Caso de Uso', 'É uma situação que ocorre no sistema representando a interação entre um Ator e o sistema', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Cenário', 'É uma situação que leva a uma sequencia de funcionamento do sistema. É possível um mesmo caso de uso estar em diferentes cenários e possuir diferentes formas de funcionamento. ', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Diagrama de Caso de Uso', 'É um diagrama que explica um conjunto de “Casos de Uso” e a relação de cada um com um determinado Ator ou atores do sistema, ou seja, descreve cada situação que ocorre no sistema bem como os atores envolvidos ', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Classe', 'É a representação do manual para chegar há algo real e concreto dentro do universo do sistema, ou seja, se existe um objeto cachorro, com todas as suas características, propriedades e ações como cor do pelo, temperamento e latidos por exemplo, então a classe é s junção de todas essas “configurações” escritas em um tipo de “receita” para gerar um cachorro.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Diagrama de Classes', 'É um diagrama que explica todos os tipos de classes existentes em um sistema, ou seja, descreve como cada classe é, qual seu tipo, quais são suas características, propriedades e operações. Além disso também explica como as classes se relacionam', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Objeto', 'É a representação de algo real e concreto dentro do universo do sistema, ou seja, se existe uma classe cachorro, o objeto será o cachorro em si. Em outras palavras, é quando uma classe é transformada em um objeto.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Atributos', 'É a representação das características de um objeto dentro de uma classe, por exemplo, um homem tem altura, cor do cabelo, cor da pele e etc. Dentro do universo do sistema existiria uma classe e todas essas características citadas seriam seus atributos.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Métodos', 'É a representação das ações de um objeto dentro de uma classe, por exemplo, um homem fala, corre, pula e etc. Dentro do universo do sistema existiria uma classe e todas essas ações citadas seriam seus métodos.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Encapsular', 'É quando o acesso a qualquer característica da classe, ou seja, seus atributos, só são permitidos através dos  métodos da própria classe, isso garante que só será acessado ou alterado aquilo que a classe permitir, trazendo mais segurança. ', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Diagrama de Objetos', 'É um diagrama que explica um grupo de objetos se relacionando em determinado momento do sistema, ou seja, descreve como os objetos se relacionam quando ocorre uma situação especifica', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Diagrama de Interação', 'É um diagrama que  explica como os objetos do sistema interagem uns com os outros, explicando seus relacionamentos e interações. Ele e dividido em 4: Diagrama de Sequência, Diagrama de Comunicação ou Colaboração, Diagrama de Visão Geral de Interação e Diagramas de Tempo.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Diagrama de Tempo', 'E um dos chamados “Diagrama de Interação”, este é um diagrama em que representa a situação do sistema em um determinado tempo, podendo ser apenas a duração de uma mensagem ou condição que gera uma mudança no sistema.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Diagrama de Comunicação ou Colaboração', 'E um dos chamados “Diagrama de interação”, este explica a relação entre os objetos, sendo que o mais importante aqui é mostrar a organização estrutural dos objetos', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Diagrama de Sequências', 'E um dos chamados “Diagrama de interação”, este explica passo a passo a troca de dados ou mensagens entre objetos durante uma determinada situação', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Classes Associativas', 'É uma classe que é gerada a partir da relação de outras duas classes. Ela só se faz necessária enquanto existir uma relação entre as principais.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Pacote', 'O pacote é um grupo de classes, utilizado para organizar os diagramas de classe de sistemas com um numero muito alto de classes.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Diagrama de Pacotes', 'É um diagrama que explica como os pacotes do sistema interagem uns com os outros', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Herança', 'Quando diferentes classes possuem características ou propriedades similares é possível agrupar essas semelhanças em  uma “super Classe”, sendo assim as outras classes passariam a ter uma relacionamento de herança, ou seja, todas elas receberiam as características e propriedades da “Super Classe”.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Generalização', 'É o nome dado a representação gráfica da relação de “Herança” em um Diagrama.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Associação', 'É o nome dado a relação entre classes ou objetos de um sistema, podendo ser de: agregação, composição e reflexiva.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Associação de Agregação', 'É uma associação em que os objetos ou classes são independentes, porem podem trabalhar juntos se necessário ', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Estende ou Extend', 'É o nome dado a representação gráfica da “Associação de Agregação” em um Diagrama.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Associação de Composição', 'É uma associação em que os objetos ou classes são dependentes e devem trabalhar juntos ', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Incluir ou Include', 'É o nome dado a representação gráfica da “Associação de Composição” em um Diagrama.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Associação Reflexiva', 'É uma associação em que os objetos da mesma classe interagem entre si ', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Realização', 'É uma relação entre classes ou objetos  em que tem mais de uma classe ou objeto envolvidos, sendo que a relação da primeira é garantida pela relação da segunda com a terceira. Normalmente utilizado para interfaces.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Persistência', 'É quando os dados da classe ou do sistema serão preservados de alguma forma. Usado em modelos de bancos de dados.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Instância de Classe', 'Quando o sistema necessita de algum objeto é chamada a classe deste objeto e é feito uma “instancia”, ou seja, é quando o objeto é criado a partir de sua classe', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Diagrama de Implantação', 'Alguns sistemas são grandes e críticos, logo, e necessário a divisão do processamento em mais de um servidor. O diagrama de Implementação é o diagrama que explica como está organizado a parte física desses sistemas, ou seja, toda a divisão entre os servidores do ambiente, chamados de “Nós”. ', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Eventos', 'São situações ou condições que levam o sistema a ter algum tipo de reação ou resposta, sendo que ele é dividido em dois: eventos externos e eventos internos.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Evento Externo', 'São situações que ocorrem de fora do sistema para dentro do sistema que geram um evento', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Evento Interno', 'São situações que ocorrem dentro do sistema de forma automática que geram um evento.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Estado', 'É um comportamento específico de um objeto do sistema que está ocorrendo por tempo limitado dentro de condições ou eventos.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Diagrama de Estados', 'É um diagrama que representa as mudanças de estados dos objetos e como essas mudanças estão relacionadas.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Transição', 'É a representação da mudança de estado de um objeto, é caracterizado por uma seta entre dois estados diferentes de um mesmo objeto.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Interface', 'É um elemento que define todas as ações ou operações que outros elementos devem possuir.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Componente', 'É uma parte independente de um sistema e tem seu comportamento definido pelas interfaces fornecidas.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Nó ', 'Alguns sistemas são grandes e críticos, logo, e necessário a divisão do processamento em mais de um servidor. Cada um desses servidores do ambiente são chamados de “Nós”.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Atividade ', 'Atividade é o nome de qualquer ação  de uma classe que resulta em alguma alteração no sistema.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Diagrama de Atividades', 'É um diagrama que representa o fluxo de trabalho das atividades de um sistema.', 'https://www.youtube.com/embed/ls5OaixtMT8']);
-    array.push(['Diagramas de Visão Geral de Interação', 'É um diagrama muito parecido com “Diagrama de Atividades”, mas neste caso ele também mostra a relação entre outros diagramas de interação, mostrando uma visão geral do sistema', 'https://www.youtube.com/embed/ls5OaixtMT8']);
+    // tslint:disable-next-line: max-line-length
+    array.push([
+      'Ator',
+      'É algo ou alguém que representa alguma ação que ocorre no sistema, como por exemplo uma pessoa usando o aplicativo ou outro sistema utilizando alguma função disponível.',
+      'https://www.youtube.com/embed/DvHp45HjzD4'
+    ]);
+    array.push([
+      'Papel',
+      'É aquilo que o Ator representa dentro do sistema, buscando apresentar uma situação ou condição real. Por exemplo, uma pessoa utilizando o software pode representar mais de um papel.',
+      'https://www.youtube.com/embed/hq8vpMILUhY'
+    ]);
+    array.push([
+      'Caso de Uso',
+      'É uma situação que ocorre no sistema representando a interação entre um Ator e o sistema.',
+      'https://www.youtube.com/embed/oRCAAg1MZt4'
+    ]);
+    array.push([
+      'Cenário',
+      'É uma situação que leva a uma sequência de funcionamento do sistema. É possível um mesmo caso de uso estar em diferentes cenários e possuir diferentes formas de funcionamento. Por exemplo, no caso de uso “Fazer Pedido”, o ator Funcionário precisa da autorização do gerente. Porém o ator gerente pode fazer o pedido sem precisar de autorizações.',
+      'https://www.youtube.com/embed/3tr4rkf-YSE'
+    ]);
+    array.push([
+      'Diagrama de Caso de Uso',
+      'É um diagrama que explica um conjunto de “Caso de Uso” e a relação de cada um com um determinado ator ou atores do sistema, ou seja, descreve cada situação que ocorre no sistema bem como os atores envolvidos.',
+      'https://www.youtube.com/embed/d3vIL86XkpA'
+    ]);
+    array.push([
+      'Classe',
+      'É a representação do manual para chegar há algo real e concreto dentro do universo do sistema, por exemplo, a classe “cachorro” teria suas características, propriedades e ações sendo: cor do pelo, temperamento e latidos.',
+      'https://www.youtube.com/embed/UEEpy4H1t4'
+    ]);
+    array.push([
+      'Diagrama de Classes',
+      'É um diagrama que explica todos os tipos de classes existentes em um sistema, ou seja, descreve como cada classe é, qual seu tipo, quais são suas características, propriedades e operações. Além disso também explica como as classes se relacionam',
+      'https://www.youtube.com/embed/ZwEo6fIVqQA'
+    ]);
+    array.push([
+      'Objeto',
+      'É a representação de algo real e concreto dentro do universo do sistema, ou seja, se existe uma classe cachorro, o objeto será o cachorro em si. Em outras palavras, é quando uma classe é transformada em um objeto.',
+      'https://www.youtube.com/embed/GFap9dSws9c'
+    ]);
+    array.push([
+      'Atributos',
+      'É a representação das características de um objeto, por exemplo, um objeto homem os atributos: altura, cor do cabelo, cor da pele e etc.',
+      'https://www.youtube.com/embed/DNWdBPxg5s'
+    ]);
+    array.push([
+      'Métodos',
+      'É a representação das ações de um objeto, por exemplo, um objeto homem tem seus métodos: falar, correr, pular e etc.',
+      'https://www.youtube.com/embed/mYoktI12aRo'
+    ]);
+    array.push([
+      'Encapsular',
+      'É quando o acesso a qualquer característica da classe é protegido, ou seja, apenas os métodos da própria classe acessam seus atributos.',
+      'https://www.youtube.com/embed/BZtrEn7zlg'
+    ]);
+    array.push([
+      'Diagrama de Objetos',
+      'É um diagrama que explica como um grupo de objetos se relacionando em determinado momento do sistema.',
+      'https://www.youtube.com/embed/JBUALqet2ys'
+    ]);
+    array.push([
+      'Diagrama de Tempo',
+      'É um diagrama que representa a situação do sistema em um determinado tempo, podendo ser apenas a duração de uma mensagem, troca de dados ou uma condição que gera uma mudança no sistema, por exemplo, sem acesso a internet nenhuma mensagem será recebida.',
+      'https://www.youtube.com/embed/p8ob3Wl68H8'
+    ]);
+    array.push([
+      'Diagrama de Comunicação ou Colaboração',
+      'É um diagrama que representa quais são as mensagens ou dados trocados entre os objetos.',
+      'https://www.youtube.com/embed/oCQP jrO4aY'
+    ]);
+    array.push([
+      'Diagrama de Sequência',
+      'É o diagrama que explica o passo a passo da sequência de troca de mensagens ou dados entre objetos durante uma situação. Por exemplo, para um objeto homem brincar com o objeto cachorro é necessário a sequência: Chamar o cachorro, cachorro responder o chamado, cachorro ir até o dono e, finalmente, dono brincar com cachorro.',
+      'https://www.youtube.com/embed/zzqwYpQml20'
+    ]);
+    array.push([
+      'Classes Associativas',
+      'É uma classe que é gerada a partir da relação de outras duas classes. Ela só se faz necessária enquanto existir uma relação entre as principais.',
+      'https://www.youtube.com/embed/jnHScqJQKMw'
+    ]);
+    array.push([
+      'Pacote',
+      'Quando nós temos um sistema com muitas classes, é necessário a criação de “pacotes” para organizar essas classes.',
+      'https://www.youtube.com/embed/LkjNnk3XYCA'
+    ]);
+    array.push([
+      'Diagrama de Pacotes',
+      'É um diagrama que explica a relação entre os pacotes do sistema interagindo uns com os outros.',
+      'https://www.youtube.com/embed/xELkG1LV55M'
+    ]);
+    array.push([
+      'Herança',
+      'Quando diferentes classes possuem características ou propriedades similares é possível agrupar essas semelhanças em uma única classe. Sendo assim, essas outras classes podem absorver essas características em uma relação de herança.',
+      'https://www.youtube.com/embed/HyZNII1oLSk'
+    ]);
+    array.push([
+      'Generalização',
+      'É o nome dado a representação gráfica da relação de “Herança” em um Diagrama.',
+      'https://www.youtube.com/embed/VbcEWXflQXE'
+    ]);
+    array.push([
+      'Associação de Agregação',
+      'É quando duas classes são independentes, porém podem trabalhar juntas quando necessário, criando a relação no momento desejado.',
+      'https://www.youtube.com/embed/dpc2YL2QuFY'
+    ]);
+    array.push([
+      'Estende ou Extend',
+      'É o nome dado a representação gráfica da “Associação de Agregação” em um Diagrama.',
+      'https://www.youtube.com/embed/f9L7JMe13JA'
+    ]);
+    array.push([
+      'Associação de Composição',
+      'É quando duas classes são dependentes, ou seja,obrigatoriamente ambas tem que trabalhar juntas.',
+      'https://www.youtube.com/embed/jPfjqRq0VJM'
+    ]);
+    array.push([
+      'Incluir ou Include',
+      'É o nome dado a representação gráfica da “Associação de Composição” em um Diagrama.',
+      'https://www.youtube.com/embed/U9o-K97RyyU'
+    ]);
+    array.push([
+      'Associação Reflexiva',
+      'É quando os objetos de uma mesma classe interagem entre si.',
+      'https://www.youtube.com/embed/b-w4tdj5gps'
+    ]);
+    array.push([
+      'Persistência',
+      'É quando os dados do sistema são preservados em alguma forma de armazenamento.',
+      'https://www.youtube.com/embed/wMm7frrLb9U'
+    ]);
+    array.push([
+      'Instância de Classe',
+      'É quando um objeto é criado a partir de sua classe.',
+      'https://www.youtube.com/embed/aPi9b1Mxy4Q'
+    ]);
+    array.push([
+      'Diagrama de Implantação',
+      'Alguns sistemas são grandes e críticos, logo, e necessário a divisão do processamento em mais de um servidor (nós). O diagrama de Implementação é o diagrama que explica como está organizado.',
+      'https://www.youtube.com/embed/xnScThu0U5w'
+    ]);
+    array.push([
+      'Nó',
+      'Nó é o nome dado a cada um dos servidores dentro de um Diagrama de Implantação.',
+      'https://www.youtube.com/embed/uEeZZsulsp0'
+    ]);
+    array.push([
+      'Eventos,',
+      'São situações ou condições que levam o sistema a ter algum tipo de reação ou resposta. Eventos externos são situações que ocorrem de fora do sistema para dentro do sistema, por exemplo, você abrir o Whatsapp para enviar uma mensagem. Eventos internos são situações que ocorrem dentro do sistema de forma automática, por exemplo, você receber uma notificação do Whatsapp de uma nova mensagem.',
+      'https://www.youtube.com/embed/BCXtpyP79zY'
+    ]);
+    array.push([
+      'Estado',
+      'É um comportamento específico de um objeto no sistema que está ocorrendo por tempo limitado dentro de determinadas condições.',
+      'https://www.youtube.com/embed/-Y-KFD5LtQ'
+    ]);
+    array.push([
+      'Diagrama de Estados',
+      'É um diagrama que representa todas as mudanças de estados dos objetos e como estão de relacionando.',
+      'https://www.youtube.com/embed/YHUKz0lyFks'
+    ]);
+    array.push([
+      'Transição',
+      'É a representação gráfica da mudança de estado de um objeto.',
+      'https://www.youtube.com/embed/PuEkf-MNX4s'
+    ]);
+    array.push([
+      'Atividade',
+      'É o nome de qualquer ação de uma classe que resulta em alguma alteração no sistema.',
+      'https://www.youtube.com/embed/MEX6Wq5MLoA'
+    ]);
+    array.push([
+      'Diagrama de Atividades',
+      'É um diagrama que representa o fluxo de trabalho de todas atividades de um sistema.',
+      'https://www.youtube.com/embed/ERcYi5BvUSs'
+    ]);
+    array.push([
+      'Interface',
+      'É uma segurança que o sistema tem para funcionar corretamente. Quando uma classe ou componente implementam uma interface, são obrigados a possuir todas as características e operações pré definidas pela interface.',
+      'https://www.youtube.com/embed/vACErSq5uRg'
+    ]);
+    array.push([
+      'Componente',
+      'É uma parte independente do sistema e tem seu comportamento pré definido pelas interfaces.',
+      'https://www.youtube.com/embed/g6KucAf0CU8'
+    ]);
+    array.push([
+      'Realização',
+      'É quando um elemento como classe, objeto ou componente, tem suas características ou operações pré definidas, por exemplo, por uma interface.',
+      'https://www.youtube.com/embed/csKgeSXjALA'
+    ]);
+
     return array;
   }
-
 }
