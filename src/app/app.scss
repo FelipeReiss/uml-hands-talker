@@ -1,22 +1,22 @@
 // App Styles
 // ----------------------------------------------------------------------------
-// Put style rules here that you want to apply to the entire application. These 
-// styles are for the entire app and not just one component. Additionally, this 
-// file can hold Sass mixins, functions, and placeholder classes to be imported 
+// Put style rules here that you want to apply to the entire application. These
+// styles are for the entire app and not just one component. Additionally, this
+// file can hold Sass mixins, functions, and placeholder classes to be imported
 // and used throughout the application.
 
-ion-content{
-    --background: #FFF url('../assets/images/Logo3.png') no-repeat center / cover;   
+ion-content {
+  --background: #fff url('../assets/images/Logo3.png') no-repeat center / cover;
 }
 ion-item {
-    --background: transparent;
-    --ion-color-base: transparent !important;
+  --background: transparent;
+  --ion-color-base: transparent !important;
 }
 ion-list {
-    --background: transparent;
-    --ion-color-base: transparent !important;
+  --background: transparent;
+  --ion-color-base: transparent !important;
 }
 .background {
-	border-color: rgba(0, 0, 0, 0);
-	background-color: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
 }

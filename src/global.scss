@@ -10,11 +10,28 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
-.icon-7em{
-    font-size: 7em;
+.icon-2em {
+  font-size: 2em;
+}
+
+.icon-3em {
+  font-size: 3em;
+}
+
+.label-text {
+  font-size: 2em !important;
+  font-weight: bold;
+}
+
+.icon-7em {
+  font-size: 7em;
+}
+
+.icon-10em {
+  font-size: 10em;
 }
 
 .background {
-    border-color: rgba(0, 0, 0, 0);
-	background-color: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
 }

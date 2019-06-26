@@ -16,21 +16,21 @@
             <!--<ion-icon name="log-in" color="primary" class="icon-7em"></ion-icon>-->
             <img src="'../../../../../../assets/images/Logo.png" class="icon-7em">
           </h1>
-          
-          <form 
-            [formGroup]="authForm" 
+
+          <form
+            [formGroup]="authForm"
             (submit)="onSubmit(AuthProviders.Email)"
           >
-            
+
             <ng-container *ngIf="!configs.isSignIn">
                 <ion-item>
                     <ion-icon name="person" color="primary" slot="start"></ion-icon>
                     <ion-input type="text" placeholder="Digite seu Nome" formControlName="name"></ion-input>
                     <ion-note slot="end" color="danger" *ngIf="name.dirty && name.hasError('required')">Requerido</ion-note>
                     <ion-note slot="end" color="danger" *ngIf="name.dirty && name.hasError('minlength')">Minimo 3 caracteres</ion-note>
-                  </ion-item>  
+                  </ion-item>
             </ng-container>
-            
+
             <ion-item>
               <ion-icon name="mail" color="primary" slot="start"></ion-icon>
               <ion-input type="mail" placeholder="Digite seu Email" formControlName="email" inputmode="email" autofocus="true"></ion-input>
@@ -46,9 +46,9 @@
             <ion-button expand="block" type="submit" [disabled]="authForm.invalid">
               {{ configs.action }}
             </ion-button>
-          
+
           </form>
-          
+
           <ion-button expand="full" fill="clear" (click)="changeAuthAction()">
             {{ configs.actionChange }}
           </ion-button>
@@ -59,16 +59,16 @@
                 <ion-button
                   expand="full"
                   color="primary"
-                  (click)="onSubmit(AuthProviders.Facebook)" 
+                  (click)="onSubmit(AuthProviders.Facebook)"
                 >
                   <ion-icon name="logo-facebook"></ion-icon>
                 </ion-button>
               </ion-col>
               <ion-col>
-                <ion-button              
+                <ion-button
                   expand="full"
                   color="danger"
-                  (click)="onSubmit(AuthProviders.Google)" 
+                  (click)="onSubmit(AuthProviders.Google)"
                 >
                   <ion-icon name="logo-google"></ion-icon>
                 </ion-button>

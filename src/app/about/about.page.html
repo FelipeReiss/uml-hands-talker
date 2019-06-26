@@ -3,40 +3,177 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title text-center>
-      Sobre
-    </ion-title>
+    <ion-title text-center>Sobre</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content padding>
   <ion-grid>
-    <ion-row justify-content-center align-items-center>
-      <ion-col size-xs="12" size-sm="9" size-md="8" size-lg="8" size-xl="8">
-        <h1 text-center>
-          <!--<ion-icon name="log-in" color="primary" class="icon-7em"></ion-icon>-->
-          <img src="'../../../../../../assets/images/Logo.png" class="icon-7em" />
-        </h1>
-        <ion-item lines="none">
+    <ion-row
+      justify-content-center
+      align-items-center
+    >
+      <ion-col
+        size-xs="12"
+        size-sm="9"
+        size-md="8"
+        size-lg="8"
+        size-xl="8"
+      >
+        <ion-item></ion-item>
+        <ion-item>
+          <ion-grid align-self-center>
+            <ion-row>
+              <ion-col>
+                <ion-icon
+                  class="icon-2em"
+                  name="logo-android"
+                  expand="full"
+                  color="success"
+                ></ion-icon>
+              </ion-col>
+              <ion-col>
+                <ion-icon
+                  class="icon-2em"
+                  name="logo-apple"
+                  expand="full"
+                ></ion-icon>
+              </ion-col>
+              <ion-col>
+                <ion-icon
+                  class="icon-3em"
+                  name="logo-ionic"
+                  expand="full"
+                  color="primary"
+                ></ion-icon>
+              </ion-col>
+              <ion-col>
+                <ion-icon
+                  class="icon-2em"
+                  name="logo-windows"
+                  expand="full"
+                  color="primary"
+                ></ion-icon>
+              </ion-col>
+              <ion-col>
+                <ion-icon
+                  class="icon-2em"
+                  name="at"
+                  expand="full"
+                ></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+        <ion-item
+          lines="none"
+          text-center
+        >
+          <ion-label>
+            <img
+              src="'../../../../../../assets/images/Logo.png"
+              class="icon-10em"
+            >
+          </ion-label>
+        </ion-item>
+        <ion-item>
           <ion-label text-wrap>
-            O aplicativo "UML Hands Talker" sirgiu para a defesa de conclusão de curso do autor
-            Felipe Costa Reis. O intuito deste trabalho é auxiliar no aprendizado de Surdos no
+            O aplicativo "UML Hands Talker" é resultado do Trabalho de Conclusão de Curso para o
+            Instituto Federal de São Paulo. O intuito deste software é auxiliar no aprendizado de Surdos no
             âmbito da linguagem de modelagem unificada (UML), utilizada em arquitetura de software,
             análise orientada a objetos e etc, através da explicação de alguns termos específicos da
             UML em notação da Língua Brasileira de Sinais (Libras), visando a eficiência e a
             eficácia na absorção de conhecimentos pertinentes à área de uma forma simples, objetiva,
-            prática e direta na Língua materna do surdo.
+            prática e direta na Língua materna do surdo. Desta forma, para atingir o maior número de
+            usuários possíveis, este app foi desenvolvido utilizando o framework IONIC para gerar a fonte
+            das principais plataformas: Android, iOS, Windows Phone e Web Application.
+          </ion-label>
+        </ion-item>
+        <ion-item text-center>
+          <ion-label class="label-text">Autor: Felipe Reis</ion-label>
+        </ion-item>
+        <ion-item
+          lines="none"
+          text-center
+        >
+          <ion-label>
+            <img
+              src="'../../../../../../assets/images/autor.png"
+              class="icon-10em"
+            >
           </ion-label>
         </ion-item>
         <ion-item lines="none">
-          <ion-icon name="mail" slot="start" color="primary"></ion-icon>
+          <ion-icon
+            name="mail"
+            slot="start"
+            color="primary"
+          ></ion-icon>
           <ion-label text-wrap>felipereiss@outlook.com</ion-label>
         </ion-item>
-          <ion-icon name="logo-linkedin"></ion-icon>
-        <ion-item lines="none">
-          <ion-icon name="logo-whatsapp" slot="start" color="success"></ion-icon>
+        <ion-item
+          href="http://api.whatsapp.com/send?1=pt_BR&phone=5511953565889"
+          lines="none"
+        >
+          <ion-icon
+            name="logo-whatsapp"
+            slot="start"
+            color="success"
+          ></ion-icon>
           <ion-label>(11) 9 5356-5889</ion-label>
         </ion-item>
-        <ion-icon name="logo-instagram"></ion-icon>
+        <ion-item href="https://www.linkedin.com/in/felipereiss/">
+          <ion-icon
+            name="logo-linkedin"
+            slot="start"
+            color="primary"
+          ></ion-icon>
+          <ion-label>
+            https://www.linkedin.com/in/felipereiss/
+          </ion-label>
+        </ion-item>
+        <ion-item text-center>
+          <ion-label class="label-text">Intérprete: Gesiel Santana</ion-label>
+        </ion-item>
+        <ion-item
+          lines="none"
+          text-center
+        >
+          <ion-label>
+            <img
+              src="'../../../../../../assets/images/interprete.png"
+              class="icon-10em"
+            >
+          </ion-label>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-icon
+            name="mail"
+            slot="start"
+            color="primary"
+          ></ion-icon>
+          <ion-label text-wrap>cas@educacao.pmrp.com.br</ion-label>
+        </ion-item>
+        <ion-item
+          href="http://api.whatsapp.com/send?1=pt_BR&phone=5516988051373"
+          lines="none"
+        >
+          <ion-icon
+            name="logo-whatsapp"
+            slot="start"
+            color="success"
+          ></ion-icon>
+          <ion-label>(16) 9 8805-1373</ion-label>
+        </ion-item>
+        <ion-item
+          href="https://instagram.com/gesiel.santana?igshid=1dkf64owcz0c9"
+          lines="none"
+        >
+          <ion-icon
+            name="logo-instagram"
+            slot="start"
+          ></ion-icon>
+          <ion-label>@gesiel.santana</ion-label>
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>
